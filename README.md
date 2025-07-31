@@ -98,6 +98,60 @@
 | POST   | `/blogs/:id/comment` | Add comment            | Auth Users |
 | GET    | `/search`          | Search by user, country, or city | Public |
 
+## 📁 Project Structure
+```bash
+    travelogged/
+    ├── server.js                 # Entry point of the app
+    ├── app.js                    # Express app configuration
+    ├── .env                      # Environment variables
+    ├── .gitignore                # Files and folders Git should ignore
+    ├── package.json              # Project metadata and dependencies
+    │
+    ├── models/                   # Mongoose models
+    │   ├── db.js                 # MongoDB connection setup
+    │   ├── user.js               # User (traveler) schema
+    │   └── post.js               # Travel post schema
+    │
+    ├── controllers/              # App logic organized by feature
+    │   ├── auth/
+    │   │   ├── dataController.js     # Auth-related DB operations
+    │   │   ├── apiController.js      # Login/signup API logic
+    │   │   ├── routeController.js    # Auth route definitions
+    │   │   └── viewController.js     # Render auth views
+    │   └── posts/
+    │       ├── dataController.js     # Travel post DB operations
+    │       ├── apiController.js      # Travel post API logic
+    │       ├── routeController.js    # Travel post routes
+    │       └── viewController.js     # Render post-related views
+    │
+    ├── routes/
+    │   └── apiRoutes.js          # API route configuration
+    │
+    ├── views/                    # Frontend views using JSX
+    │   ├── layouts/
+    │   │   └── Layout.jsx        # Main layout template
+    │   ├── auth/
+    │   │   ├── SignUp.jsx        # User registration page
+    │   │   └── SignIn.jsx        # User login page
+    │   └── posts/
+    │       ├── Index.jsx         # Explore all travel posts
+    │       ├── Show.jsx          # Single travel experience view
+    │       ├── New.jsx           # Create new travel post
+    │       └── Edit.jsx          # Edit an existing post
+    │
+    ├── public/
+    │   ├── styles.css            # Custom styles
+    │   └── banner.jpg            # Homepage or post banner image
+    │
+    ├── tests/
+    │   ├── user.test.js          # Tests for user-related features
+    │   ├── post.test.js          # Tests for travel posts
+    │   └── integration.test.js   # End-to-end route and flow tests
+    │
+    └── README.md                 # Project overview and instructions
+
+```
+
 
 ## 🧱 [Wireframes](https://www.canva.com/design/DAGuvqXvQpU/TQ6v3UIkLobbhJCiB6vclg/edit?utm_content=DAGuvqXvQpU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
