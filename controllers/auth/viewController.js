@@ -9,3 +9,5 @@ exports.signIn = (req, res) => {
 exports.redirectToLogin = (req, res) => {
   res.redirect('/authors/login')
 }
+
+

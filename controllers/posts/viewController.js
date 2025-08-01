@@ -1,3 +1,4 @@
+
 const Post = require('../../models/post')
 
 exports.index = async (req, res) => {
@@ -48,3 +49,6 @@ exports.redirectHome = (req, res) => {
 exports.redirectShow = (req, res) => {
   res.redirect(`/posts/${req.params.id}`)
 }
+
+
+

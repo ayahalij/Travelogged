@@ -1,43 +1,35 @@
-const React = require('react');
-const Layout = require('../layouts/Layout');
+const React = require("react");
 
-function Index(props) {
-  const { posts, userId } = props;
+function Index({ posts, currentUser }) {
   return (
-    <Layout title="All Travel Posts" userId={userId}>
-      <h2>Travelogged Posts</h2>
-      {/* Add Create button */}
-      <div style={{ marginBottom: '1rem' }}>
-        <a href="/posts/new" className="btn btn-primary">Create</a>
-      </div>
-      <form method="GET" action="/search" className="search-form">
-        <input type="text" name="q" placeholder="Search by user, country, or city" />
-        <button type="submit">Search</button>
-      </form>
-      <div className="posts-grid">
-        {posts.map((post) => (
-          <div key={post._id} className="post-card">
-            {post.imageUrl && <img src={post.imageUrl} alt={post.title} />}
-            <h3><a href={`/posts/${post._id}`}>{post.title}</a></h3>
+    <div>
+      <h1>All Posts</h1>
+      {posts.length === 0 ? (
+        <p>No posts available.</p>
+      ) : (
+        posts.map((post) => (
+          <div key={post._id} style={{ border: "1px solid #ccc", marginBottom: "1rem", padding: "1rem" }}>
+            <h2>{post.title}</h2>
+            <p>{post.content}</p>
             <p>
-              <strong>Location:</strong> {post.city}, {post.country}
+              By: {post.author?.name || "Unknown Author"}
             </p>
-            <p>
-              <strong>Duration:</strong> {post.duration}
-            </p>
-            <p>{post.content.substring(0, 100)}...</p>
-            <p>
-              Likes: {post.likes.length} | Comments: {post.comments.length}
-            </p>
-            {userId === post.author._id.toString() && (
-              <div className="post-actions">
-                <a href={`/posts/${post._id}/edit`}>Edit</a>
-              </div>
+            <a href={`/posts/${post._id}`}>View</a> |{" "}
+            <a href={`/posts/${post._id}/edit`}>Edit</a>
+            {/* Only show delete if the current user is the author */}
+            {post.author?._id?.toString() === currentUser?._id?.toString() && (
+              <>
+                {" | "}
+                <form action={`/posts/${post._id}?_method=DELETE`} method="POST" style={{ display: "inline" }}>
+                  <button type="submit">Delete</button>
+                </form>
+              </>
             )}
           </div>
-        ))}
-      </div>
-    </Layout>
+        ))
+      )}
+      <a href="/posts/new">Create New Post</a>
+    </div>
   );
 }
 

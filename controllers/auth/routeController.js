@@ -10,3 +10,4 @@ router.post('/login', dataController.loginAuthor, postsViewController.redirectHo
 router.get('/login', viewController.signIn);
 
 module.exports = router;
+

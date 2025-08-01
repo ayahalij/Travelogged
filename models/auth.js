@@ -1,9 +1,8 @@
-// models/user.js - Updated version
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
-const userSchema = new mongoose.Schema({
+const authorSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -22,27 +21,30 @@ const userSchema = new mongoose.Schema({
     default: ''
   },
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
-});
+})
 
 // Hide password from JSON responses
-userSchema.methods.toJSON = function() {
-  const user = this.toObject();
-  delete user.password;
-  return user;
-};
+authorSchema.methods.toJSON = function() {
+  const author = this.toObject()
+  delete author.password
+  return author
+}
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+authorSchema.pre('save', async function(next) {
   if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
+    this.password = await bcrypt.hash(this.password, 8)
   }
-  next();
-});
+  next()
+})
 
 // Generate JWT token
-userSchema.methods.generateAuthToken = async function() {
-  const token = jwt.sign({ _id: this._id }, 'secret');
-  return token;
-};
+authorSchema.methods.generateAuthToken = async function() {
+  const token = jwt.sign({ _id: this._id }, 'secret')
+  return token
+}
 
-module.exports = mongoose.model('User', userSchema);
+const Author = mongoose.model('Author', authorSchema)
+
+module.exports = Author
+

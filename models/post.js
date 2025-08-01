@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
     trim: true,
   },
   imageUrl: {
-    type: String,
+    type: String, // URL or filename if uploaded
     required: false,
   },
   country: {
@@ -25,26 +25,26 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   duration: {
-    type: String,
+    type: String, // e.g., "5 days", "2 weeks"
     required: true,
   },
   backgroundSoundUrl: {
-    type: String,
+    type: String, // URL or filename of background sound
     required: false,
   },
   content: {
-    type: String,
+    type: String, // The blog/story content
     required: true,
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Changed from 'Author' to 'User'
+    ref: 'Author', // Changed from 'User' to 'Author'
     required: true,
   },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Changed
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Author' }], // Changed from 'User' to 'Author'
   comments: [
     {
-      commenter: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Changed
+      commenter: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' }, // Changed from 'User' to 'Author'
       content: String,
       createdAt: { type: Date, default: Date.now },
     },
