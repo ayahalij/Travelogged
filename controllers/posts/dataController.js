@@ -62,16 +62,49 @@ dataController.show = async (req, res, next) => {
 
 dataController.update = async (req, res, next) => {
   try {
-    console.log('Updating post with data:', req.body);
+    console.log('=== UPDATE REQUEST DEBUG ===');
+    console.log('Request method:', req.method);
+    console.log('Request URL:', req.url);
+    console.log('Post ID:', req.params.id);
+    console.log('Raw req.body:', req.body);
+    console.log('Author ID:', req.author ? req.author._id : 'No author');
     
-    // Remove the published field handling since it's not in your Post model
-    res.locals.data.post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    // Check if we have data to update
+    if (!req.body || typeof req.body !== 'object' || Object.keys(req.body).length === 0) {
+      throw new Error('No update data received');
+    }
     
-    console.log('Post updated successfully');
-    next()
+    // Find the post first to check if it exists and if user owns it
+    const existingPost = await Post.findById(req.params.id);
+    if (!existingPost) {
+      throw new Error('Post not found');
+    }
+    
+    console.log('Existing post author:', existingPost.author);
+    console.log('Existing post author type:', typeof existingPost.author);
+    console.log('Current user ID:', req.author._id);
+    console.log('Current user ID type:', typeof req.author._id);
+    
+    // Convert both to strings for comparison
+    const postAuthorId = existingPost.author.toString();
+    const currentUserId = req.author._id.toString();
+    
+    console.log('Post author ID (string):', postAuthorId);
+    console.log('Current user ID (string):', currentUserId);
+    console.log('IDs match?', postAuthorId === currentUserId);
+    
+    // Check if the current user is the author of the post
+    if (postAuthorId !== currentUserId) {
+      throw new Error('Not authorized to edit this post');
+    }
+    
+    res.locals.data.post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    
+    console.log('Post updated successfully:', res.locals.data.post._id);
+    next();
   } catch (error) {
     console.error('Post update error:', error.message);
-    res.status(400).send({ message: error.message })
+    res.status(400).send({ message: error.message });
   }
 }
 

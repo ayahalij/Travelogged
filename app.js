@@ -13,10 +13,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// In app.js, add this line with other requires:
 const cookieParser = require('cookie-parser')
-
-// And add this middleware before your routes:
 app.use(cookieParser())
 
 // Setup JSX as the view engine
@@ -47,5 +44,6 @@ app.use('/api', apiRoutes)
 app.use((req, res) => {
   res.status(404).send('Page Not Found')
 })
+
 
 module.exports = app
