@@ -16,98 +16,58 @@ function Edit({ post, userId }) {
       <form action={`/posts/${post._id}?_method=PUT`} method="POST">
         <div className="form-group">
         <label>Travel Title:</label>
-        <p>{post?.title || "My Amazing Trip to..."}</p>
+        <p className="form-input">{post?.title || "My Amazing Trip to..."}</p>
         </div>
 
         <div className="form-group">
-          <label htmlFor="country">Country:</label>
-          <input 
-            type="text" 
-            id="country" 
-            name="country" 
-            required 
-            defaultValue={post.country}
-            placeholder="Japan"
-          />
+        <label>Country:</label>
+        <p className="form-input">{post?.country || "Unknown"}</p>
         </div>
 
         <div className="form-group">
-          <label htmlFor="city">City:</label>
-          <input 
-            type="text" 
-            id="city" 
-            name="city" 
-            required 
-            defaultValue={post.city}
-            placeholder="Tokyo"
-          />
+        <label>City:</label>
+        <p className="form-input">{post?.city || "Unknown"}</p>
         </div>
 
         <div className="form-group">
-          <label htmlFor="travelDate">Travel Date:</label>
-          <input 
-            type="date" 
-            id="travelDate" 
-            name="travelDate" 
-            required 
-            defaultValue={formatDate(post.travelDate)}
-          />
+        <label>Travel Date:</label>
+        <p className="form-input">{formatDate(post?.travelDate) || "Unknown"}</p>
         </div>
 
         <div className="form-group">
-          <label htmlFor="duration">Duration:</label>
-          <input 
-            type="text" 
-            id="duration" 
-            name="duration" 
-            required 
-            defaultValue={post.duration}
-            placeholder="5 days"
-          />
+        <label>Duration:</label>
+        <p className="form-input">{post?.duration || "Unknown"}</p>
         </div>
 
         <div className="form-group">
-          <label htmlFor="imageUrl">Image URL:</label>
-          <input 
-            type="url" 
-            id="imageUrl" 
-            name="imageUrl" 
-            defaultValue={post.imageUrl || ''}
-            placeholder="https://example.com/image.jpg"
-          />
+        <label>Image URL:</label>
+        <p className="form-input">{post?.imageUrl ? <a href={post.imageUrl}>{post.imageUrl}</a> : "No image"}</p>
         </div>
 
         <div className="form-group">
-          <label htmlFor="backgroundSoundUrl">Background Sound URL:</label>
-          <input 
-            type="url" 
-            id="backgroundSoundUrl" 
-            name="backgroundSoundUrl" 
-            defaultValue={post.backgroundSoundUrl || ''}
-            placeholder="https://example.com/sound.mp3"
-          />
+        <label>Background Sound URL:</label>
+        <p className="form-input">{post?.backgroundSoundUrl ? <a href={post.backgroundSoundUrl}>{post.backgroundSoundUrl}</a> : "No sound"}</p>
         </div>
 
         <div className="form-group">
-          <label htmlFor="content">Your Travel Story:</label>
-          <textarea 
-            id="content" 
-            name="content" 
-            rows="10" 
-            required 
-            defaultValue={post.content}
-            placeholder="Tell us about your amazing travel experience..."
-          ></textarea>
+        <label>Your Travel Story:</label>
+        <p className="form-input">{post?.content || "No content available."}</p>
         </div>
 
         <div className="form-actions">
-            <a href={`/posts/`} className="cancel-btn">Go Back to Post</a>
+        <a href={`/posts/`} className="cancel-btn">Go Back to Post</a>
         </div>
+
       </form>
 
       <style jsx>{`
         .form-group {
           margin-bottom: 20px;
+        }
+
+        .form-input{
+            margin-left: 25px;
+            color:gray;
         }
         
         label {
