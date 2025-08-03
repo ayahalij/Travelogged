@@ -1,7 +1,7 @@
 const React = require('react');
 const Layout = require('../layouts/Layout');
 
-function Edit({ post, userId }) {
+function Show({ post, userId }) {
   // Format the date for the input field
   const formatDate = (date) => {
     if (!date) return '';
@@ -41,7 +41,15 @@ function Edit({ post, userId }) {
 
         <div className="form-group">
         <label>Image URL:</label>
-        <p className="form-input">{post?.imageUrl ? <a href={post.imageUrl}>{post.imageUrl}</a> : "No image"}</p>
+
+        <div className="form-input">
+        {post?.imageUrl ? (
+            <img src={post.imageUrl} alt="Uploaded" style={{ maxWidth: '100%', height: 'auto' }} />
+        ) : (
+            "No image"
+        )}
+        </div>
+
         </div>
 
         <div className="form-group">
@@ -61,6 +69,12 @@ function Edit({ post, userId }) {
       </form>
 
       <style jsx>{`
+        img {
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 10px;
+        }
+
         .form-group {
           margin-bottom: 20px;
         }
@@ -124,4 +138,4 @@ function Edit({ post, userId }) {
   );
 }
 
-module.exports = Edit;
+module.exports = Show;

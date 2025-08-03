@@ -3,6 +3,8 @@ const express = require('express')
 const morgan = require('morgan')
 const jsxEngine = require('jsx-view-engine')
 const methodOverride = require('method-override')
+const multer = require('multer');
+
 
 const authorRoutes = require('./controllers/auth/routeController')
 const postRoutes = require('./controllers/posts/routeController')
@@ -27,6 +29,7 @@ app.use(methodOverride('_method'))
 app.use(morgan('dev'))
 app.use(express.static('public'))
 
+
 // Create an empty data object for all views & routes
 app.use((req, res, next) => {
   res.locals.data = {}
@@ -37,6 +40,7 @@ app.use((req, res, next) => {
 app.use('/authors', authorRoutes)
 app.use('/posts', postRoutes)
 
+
 // API routes (JSON)
 app.use('/api', apiRoutes)
 
@@ -44,6 +48,9 @@ app.use('/api', apiRoutes)
 app.use((req, res) => {
   res.status(404).send('Page Not Found')
 })
+
+//store the photo in the /uploads folder
+//app.use('/uploads', express.static('uploads'));
 
 
 module.exports = app

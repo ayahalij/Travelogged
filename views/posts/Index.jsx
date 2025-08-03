@@ -10,21 +10,30 @@ function Index({ posts, currentUser }) {
         posts.map((post) => (
           <div key={post._id} style={{ border: "1px solid #ccc", marginBottom: "1rem", padding: "1rem" }}>
             <h2>{post.title}</h2>
-            <p>{post.content}</p>
+            <p>{post.city}, {post.country}</p>
             <p>
               By: {post.author?.name || "Unknown Author"}
             </p>
             <a href={`/posts/${post._id}`}>View</a> |{" "}
             <a href={`/posts/${post._id}/edit`}>Edit</a>
             {/* Only show delete if the current user is the author */}
-            {post.author?._id?.toString() === currentUser?._id?.toString() && (
+
+  <form action={`/posts/${post._id}?_method=DELETE`} method="POST">
+  <button type="submit">Delete</button>
+
+</form>
+
+            {/* {post.author?._id?.toString() === currentUser?._id?.toString() && (
               <>
                 {" | "}
-                <form action={`/posts/${post._id}?_method=DELETE`} method="POST" style={{ display: "inline" }}>
-                  <button type="submit">Delete</button>
+                <form   action={`/posts/${post._id}?_method=DELETE`}
+                        method="POST"
+                        style={{ display: "inline" }}>
+
+                <button type="submit">Delete</button>
                 </form>
               </>
-            )}
+            )} */}
           </div>
         ))
       )}

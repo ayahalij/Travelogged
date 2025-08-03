@@ -6,12 +6,24 @@ function New() {
       <head>
         <title>Create New Travel Post</title>
         <link rel="stylesheet" href="/styles.css" />
+        {/* <script
+        //scripy for uploading the photo
+          dangerouslySetInnerHTML={{
+            __html: `
+              function previewImage(event) {
+                const preview = document.getElementById('preview');
+                preview.src = URL.createObjectURL(event.target.files[0]);
+                preview.style.display = 'block';
+              }
+            `,
+          }}
+        /> */}
       </head>
       <body>
         <div className="container">
           <h1>Share Your Travel Experience</h1>
           
-          <form action="/posts" method="POST">
+          <form action="/posts" method="POST" encType="multipart/form-data">
             <div className="form-group">
               <label htmlFor="title">Travel Title:</label>
               <input 
@@ -63,6 +75,30 @@ function New() {
                 name="duration" 
                 required 
                 placeholder="5 days"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="imageUrl">Upload Image:</label>
+              <input 
+                //uploding
+                //type="file"
+                type="url" 
+                accept="image/*"
+                id="imageUrl" 
+                name="imageUrl"
+                onChange="previewImage(event)"
+              />
+              <img id="preview" src="#" alt="Image Preview" style={{ display: 'none', maxWidth: '100%', marginTop: '10px' }} />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="backgroundSoundUrl">Background Sound URL:</label>
+              <input 
+                type="url" 
+                id="backgroundSoundUrl" 
+                name="backgroundSoundUrl" 
+                placeholder="https://example.com/sound.mp3"
               />
             </div>
 

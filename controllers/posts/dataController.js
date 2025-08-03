@@ -110,13 +110,34 @@ dataController.update = async (req, res, next) => {
 
 dataController.destroy = async (req, res, next) => {
   try {
-    await Post.findOneAndDelete({ _id: req.params.id })
-    console.log('Post deleted successfully');
-    next()
+    const post = await Post.findById(req.params.id).populate("author");
+
+    if (!post) {
+      console.log("Post not found");
+      return res.status(404).send({ message: "Post not found" });
+    }
+
+    if (!req.author) {
+      console.log("User not authenticated");
+      return res.status(401).send({ message: "Unauthorized" });
+    }
+
+    // Compare author ID
+    if (post.author._id.toString() !== req.author._id.toString()) {
+      console.log("User not authorized to delete this post");
+      return res.status(403).send({ message: "Unauthorized: You are not the post creator" });
+    }
+
+    await post.deleteOne(); // safer than findByIdAndDelete
+    console.log("Post deleted successfully");
+    next(); // Go to redirect
   } catch (error) {
-    console.error('Post delete error:', error.message);
-    res.status(400).send({ message: error.message })
+    console.error("Post delete error:", error);
+    res.status(500).send({ message: "Server error", error: error.message });
   }
-}
+};
+
+
+
 
 module.exports = dataController

@@ -79,14 +79,15 @@ function Edit({ post }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="imageUrl">Image URL:</label>
-              <input 
-                type="url" 
+            <label htmlFor="imageUrl">Upload Image:</label>
+            <input 
+                type="file" 
+                accept="image/*"
                 id="imageUrl" 
-                name="imageUrl" 
-                defaultValue={post.imageUrl || ''}
-                placeholder="https://example.com/image.jpg"
-              />
+                name="imageUrl"
+                onChange="previewImage(event)"
+            />
+            <img id="preview" src="#" alt="Image Preview" style={{ display: 'none', maxWidth: '100%', marginTop: '10px' }} />
             </div>
 
             <div className="form-group">
@@ -95,7 +96,6 @@ function Edit({ post }) {
                 type="url" 
                 id="backgroundSoundUrl" 
                 name="backgroundSoundUrl" 
-                defaultValue={post.backgroundSoundUrl || ''}
                 placeholder="https://example.com/sound.mp3"
               />
             </div>
