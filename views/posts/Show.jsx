@@ -9,9 +9,38 @@ function Show({ post, userId }) {
     return d.toISOString().split('T')[0];
   };
 
+  // Format comment date
+  const formatCommentDate = (date) => {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   // Check if current user has liked the post
-  const hasLiked = post.likes && post.likes.some(likeUserId => likeUserId.toString() === userId.toString());
+  const hasLiked = post.likes && post.likes.some(like => {
+    const likeId = typeof like === 'object' ? like._id.toString() : like.toString();
+    return likeId === userId.toString();
+  });
+  
   const likeCount = post.likes ? post.likes.length : 0;
+  
+  // Get usernames of people who liked (if populated)
+  const likedUsernames = post.likes && post.likes.length > 0 
+    ? post.likes.map(like => {
+        if (typeof like === 'object' && like.username) {
+          return like.username;
+        }
+        return null;
+      }).filter(Boolean)
+    : [];
+
+  const comments = post.comments || [];
 
   return (
     <Layout title={`${post.title}`} userId={userId}>
@@ -74,21 +103,79 @@ function Show({ post, userId }) {
         {/* Like section */}
         <div className="like-section">
           <div className="like-info">
-          
+            <span className="like-count">{likeCount} {likeCount === 1 ? 'like' : 'likes'}</span>
+            
+            {likedUsernames.length > 0 && (
+              <div className="liked-by">
+                <p className="liked-by-text">
+                  <strong>Liked by:</strong> {likedUsernames.join(', ')}
+                </p>
+              </div>
+            )}
+          </div>
           
           <form action={`/posts/${post._id}/toggle-like`} method="POST" className="like-form">
             <button type="submit" className={`like-btn ${hasLiked ? 'liked' : ''}`}>
               {hasLiked ? '❤️ Unlike' : '🤍 Like'}
             </button>
-          </form> 
-          
-          <span className="like-count">{'  '+likeCount} {likeCount === 1 ? 'like' : 'likes'}</span>
+          </form>
         </div>
+
+        {/* Comments Section */}
+        <div className="comments-section">
+          <h3>Comments ({comments.length})</h3>
+          
+          {/* Add Comment Form */}
+          <div className="add-comment">
+            <form action={`/posts/${post._id}/comments`} method="POST" className="comment-form">
+              <div className="comment-input-group">
+                <textarea 
+                  name="content" 
+                  placeholder="Share your thoughts about this travel story..." 
+                  required 
+                  maxLength="500"
+                  rows="3"
+                  className="comment-textarea"
+                ></textarea>
+                <button type="submit" className="comment-submit-btn">Post Comment</button>
+              </div>
+            </form>
+          </div>
+
+          {/* Display Comments */}
+          <div className="comments-list">
+            {comments.length === 0 ? (
+              <p className="no-comments">No comments yet. Be the first to share your thoughts!</p>
+            ) : (
+              comments.map(comment => (
+                <div key={comment._id} className="comment">
+                  <div className="comment-header">
+                    <span className="comment-author">{comment.commenter?.username || 'Anonymous'}</span>
+                    <span className="comment-date">{formatCommentDate(comment.createdAt)}</span>
+                  </div>
+                  <div className="comment-content">
+                    {comment.content}
+                  </div>
+                  {/* Delete button for comment author or post author */}
+                  {(comment.commenter?._id?.toString() === userId.toString() || 
+                    post.author?.toString() === userId.toString()) && (
+                    <form 
+                      action={`/posts/${post._id}/comments/${comment._id}?_method=DELETE`} 
+                      method="POST" 
+                      className="delete-comment-form"
+                      onSubmit="return confirm('Are you sure you want to delete this comment?')"
+                    >
+                      <button type="submit" className="delete-comment-btn">Delete</button>
+                    </form>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
         </div>
 
         <div className="form-actions">
           <a href={`/posts/`} className="cancel-btn">Go Back to Posts</a>
-          {/* Only show edit button if current user is the author */}
           {post.author && post.author.toString() === userId.toString() && (
             <a href={`/posts/${post._id}/edit`} className="edit-btn">Edit Post</a>
           )}
@@ -103,7 +190,8 @@ function Show({ post, userId }) {
         }
 
         img {
-          border-radius: 2px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.1);
           margin-top: 10px;
         }
 
@@ -124,6 +212,14 @@ function Show({ post, userId }) {
           color: #333;
         }
 
+        .like-section {
+          margin: 30px 0;
+          padding: 20px;
+          background-color: #f8f9fa;
+          border-radius: 8px;
+          border: 1px solid #e9ecef;
+        }
+
         .like-info {
           margin-bottom: 10px;
         }
@@ -131,6 +227,26 @@ function Show({ post, userId }) {
         .like-count {
           font-weight: bold;
           color: #6c757d;
+          margin-bottom: 10px;
+          display: block;
+        }
+
+        .liked-by {
+          margin-top: 10px;
+          padding: 10px;
+          background-color: #ffffff;
+          border-radius: 6px;
+          border: 1px solid #e9ecef;
+        }
+
+        .liked-by-text {
+          margin: 0;
+          font-size: 14px;
+          color: #495057;
+        }
+
+        .liked-by-text strong {
+          color: #343a40;
         }
 
         .like-form {
@@ -168,6 +284,152 @@ function Show({ post, userId }) {
         .like-btn.liked:hover {
           background-color: #c82333;
           border-color: #c82333;
+        }
+
+        /* Comments Section Styles */
+        .comments-section {
+          margin: 40px 0;
+          padding: 25px;
+          background-color: #ffffff;
+          border-radius: 12px;
+          border: 1px solid #e9ecef;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .comments-section h3 {
+          margin: 0 0 20px 0;
+          color: #343a40;
+          font-size: 1.4em;
+          font-weight: 600;
+        }
+
+        .add-comment {
+          margin-bottom: 30px;
+          padding: 20px;
+          background-color: #f8f9fa;
+          border-radius: 8px;
+          border: 1px solid #e9ecef;
+        }
+
+        .comment-form {
+          width: 100%;
+        }
+
+        .comment-input-group {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .comment-textarea {
+          width: 100%;
+          min-height: 80px;
+          padding: 12px;
+          border: 2px solid #e9ecef;
+          border-radius: 8px;
+          font-family: inherit;
+          font-size: 14px;
+          line-height: 1.5;
+          resize: vertical;
+          transition: border-color 0.3s ease;
+          box-sizing: border-box;
+        }
+
+        .comment-textarea:focus {
+          outline: none;
+          border-color: #007bff;
+          box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        .comment-submit-btn {
+          align-self: flex-end;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.3s ease;
+        }
+
+        .comment-submit-btn:hover {
+          background-color: #0056b3;
+        }
+
+        .comments-list {
+          space-y: 20px;
+        }
+
+        .no-comments {
+          text-align: center;
+          color: #6c757d;
+          font-style: italic;
+          padding: 30px 20px;
+          background-color: #f8f9fa;
+          border-radius: 8px;
+          margin: 0;
+        }
+
+        .comment {
+          margin-bottom: 20px;
+          padding: 15px;
+          background-color: #ffffff;
+          border: 1px solid #e9ecef;
+          border-radius: 8px;
+          position: relative;
+          transition: box-shadow 0.3s ease;
+        }
+
+        .comment:hover {
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .comment-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid #f1f3f4;
+        }
+
+        .comment-author {
+          font-weight: 600;
+          color: #007bff;
+          font-size: 14px;
+        }
+
+        .comment-date {
+          font-size: 12px;
+          color: #6c757d;
+        }
+
+        .comment-content {
+          margin-bottom: 10px;
+          line-height: 1.5;
+          color: #343a40;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+        }
+
+        .delete-comment-form {
+          display: inline-block;
+        }
+
+        .delete-comment-btn {
+          background: none;
+          border: none;
+          color: #dc3545;
+          cursor: pointer;
+          font-size: 12px;
+          text-decoration: underline;
+          padding: 0;
+          transition: color 0.3s ease;
+        }
+
+        .delete-comment-btn:hover {
+          color: #c82333;
         }
         
         .form-actions {
@@ -210,6 +472,20 @@ function Show({ post, userId }) {
           
           .cancel-btn, .edit-btn {
             text-align: center;
+          }
+
+          .comment-input-group {
+            gap: 15px;
+          }
+
+          .comment-submit-btn {
+            align-self: stretch;
+          }
+
+          .comment-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
           }
         }
       `}</style>

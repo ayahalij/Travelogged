@@ -51,14 +51,89 @@ dataController.create = async (req, res, next) => {
 dataController.show = async (req, res, next) => {
   try {
     res.locals.data.post = await Post.findById(req.params.id)
+      .populate('likes', 'username')
+      .populate('comments.commenter', 'username') // Populate the commenter field in embedded comments
+      .exec();
+      
     if (!res.locals.data.post) {
       throw new Error(`Could not locate a post with the id ${req.params.id}`)
     }
+    
+    // Sort comments by newest first (since they're embedded)
+    if (res.locals.data.post.comments) {
+      res.locals.data.post.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+    
     next()
   } catch (error) {
     res.status(400).send({ message: error.message })
   }
 }
+
+// Add these new methods to your dataController object:
+dataController.createComment = async (req, res, next) => {
+  try {
+    const { content } = req.body;
+    
+    if (!content || content.trim().length === 0) {
+      return res.status(400).send({ message: 'Comment content is required' });
+    }
+
+    // Create new comment object
+    const newComment = {
+      commenter: req.author._id,
+      content: content.trim(),
+      createdAt: new Date()
+    };
+
+    // Add comment to post using $push
+    await Post.findByIdAndUpdate(req.params.id, {
+      $push: { comments: newComment }
+    });
+
+    console.log('Comment created successfully');
+    next();
+  } catch (error) {
+    console.error('Comment creation error:', error);
+    res.status(500).send({ message: 'Error creating comment' });
+  }
+};
+
+dataController.deleteComment = async (req, res, next) => {
+  try {
+    // Find the post and the specific comment
+    const post = await Post.findById(req.params.postId);
+    
+    if (!post) {
+      return res.status(404).send({ message: 'Post not found' });
+    }
+
+    // Find the comment within the post
+    const comment = post.comments.id(req.params.commentId);
+    
+    if (!comment) {
+      return res.status(404).send({ message: 'Comment not found' });
+    }
+
+    const isCommentAuthor = comment.commenter.toString() === req.author._id.toString();
+    const isPostAuthor = post.author.toString() === req.author._id.toString();
+    
+    if (!isCommentAuthor && !isPostAuthor) {
+      return res.status(403).send({ message: 'Not authorized to delete this comment' });
+    }
+
+    // Remove the comment using pull
+    await Post.findByIdAndUpdate(req.params.postId, {
+      $pull: { comments: { _id: req.params.commentId } }
+    });
+
+    console.log('Comment deleted successfully');
+    next();
+  } catch (error) {
+    console.error('Comment deletion error:', error);
+    res.status(500).send({ message: 'Error deleting comment' });
+  }
+};
 
 dataController.update = async (req, res, next) => {
   try {

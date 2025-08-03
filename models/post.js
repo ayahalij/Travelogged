@@ -44,7 +44,7 @@ const postSchema = new mongoose.Schema({
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Author' }], // Changed from 'User' to 'Author'
   comments: [
     {
-      commenter: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' }, // Changed from 'User' to 'Author'
+      commenter: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },
       content: String,
       createdAt: { type: Date, default: Date.now },
     },

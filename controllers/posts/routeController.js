@@ -59,4 +59,13 @@ router.get('/:id/edit', authDataController.auth, dataController.show, viewContro
 // Show single post details - auth required
 router.get('/:id', authDataController.auth, dataController.show, viewController.show);
 
+router.post('/:id/comments', authDataController.auth, dataController.createComment, (req, res) => {
+  res.redirect(`/posts/${req.params.id}`);
+});
+
+// Delete a comment
+router.delete('/:postId/comments/:commentId', authDataController.auth, dataController.deleteComment, (req, res) => {
+  res.redirect(`/posts/${req.params.postId}`);
+});
+
 module.exports = router;

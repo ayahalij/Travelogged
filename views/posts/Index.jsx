@@ -22,18 +22,6 @@ function Index({ posts, currentUser }) {
   <button type="submit">Delete</button>
 
 </form>
-
-            {/* {post.author?._id?.toString() === currentUser?._id?.toString() && (
-              <>
-                {" | "}
-                <form   action={`/posts/${post._id}?_method=DELETE`}
-                        method="POST"
-                        style={{ display: "inline" }}>
-
-                <button type="submit">Delete</button>
-                </form>
-              </>
-            )} */}
           </div>
         ))
       )}
