@@ -49,8 +49,7 @@ app.use((req, res) => {
   res.status(404).send('Page Not Found')
 })
 
-//store the photo in the /uploads folder
-//app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static('uploads'));
 
 
 module.exports = app

@@ -6,7 +6,7 @@ function New() {
       <head>
         <title>Create New Travel Post</title>
         <link rel="stylesheet" href="/styles.css" />
-        {/* <script
+        <script
         //scripy for uploading the photo
           dangerouslySetInnerHTML={{
             __html: `
@@ -17,7 +17,7 @@ function New() {
               }
             `,
           }}
-        /> */}
+        />
       </head>
       <body>
         <div className="container">
@@ -82,8 +82,7 @@ function New() {
               <label htmlFor="imageUrl">Upload Image:</label>
               <input 
                 //uploding
-                //type="file"
-                type="url" 
+                type="file" 
                 accept="image/*"
                 id="imageUrl" 
                 name="imageUrl"

@@ -36,17 +36,22 @@ router.put('/:id', authDataController.auth, dataController.update, viewControlle
 router.post(
   '/',
   authDataController.auth,
-  upload.single('image'),  // name="image" in your form
+  upload.single('imageUrl'),  // name="image" in your form
   (req, res, next) => {
     if (req.file) {
-        //in upload
-      req.body.image = '/uploads/' + req.file.filename;
+      req.body.imageUrl = '/uploads/' + req.file.filename;  // use imageUrl to match your schema
     }
     next();
   },
   dataController.create,
   viewController.redirectHome
 );
+
+// Toggle Like on a post - auth required
+router.post('/:id/toggle-like', authDataController.auth, dataController.toggleLike, (req, res) => {
+  // Redirect back to the post page after toggling like
+  res.redirect(`/posts/${req.params.id}`);
+});
 
 // Show edit post form - auth required
 router.get('/:id/edit', authDataController.auth, dataController.show, viewController.edit);

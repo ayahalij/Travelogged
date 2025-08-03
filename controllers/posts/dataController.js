@@ -137,7 +137,40 @@ dataController.destroy = async (req, res, next) => {
   }
 };
 
+// Toggle like functionality
+dataController.toggleLike = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id);
 
+    if (!post) {
+      return res.status(404).send({ message: 'Post not found' });
+    }
 
+    const userId = req.author._id.toString();
+
+    // Check if user already liked the post
+    const likedIndex = post.likes.findIndex(id => id.toString() === userId);
+
+    if (likedIndex === -1) {
+      // Not liked yet, add like
+      post.likes.push(userId);
+      console.log(`User ${userId} liked post ${req.params.id}`);
+    } else {
+      // Already liked, remove like (unlike)
+      post.likes.splice(likedIndex, 1);
+      console.log(`User ${userId} unliked post ${req.params.id}`);
+    }
+
+    await post.save();
+    
+    // Store updated post in res.locals for the next middleware
+    res.locals.data.post = post;
+    
+    next(); // call next to proceed to redirect
+  } catch (error) {
+    console.error('Toggle like error:', error);
+    res.status(500).send({ message: 'Server error' });
+  }
+};
 
 module.exports = dataController
