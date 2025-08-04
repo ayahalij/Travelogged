@@ -4,9 +4,13 @@ exports.index = async (req, res) => {
   try {
     const posts = await Post.find({})
       .populate('author', 'name')
+      .populate('likes', 'name') // Add this to get likes data
+      .sort({ createdAt: -1 }) // Sort by newest first
       .exec()
     
     console.log('Current user in index:', req.author ? req.author._id : 'No user');
+    console.log('Posts loaded:', posts.length);
+    
     res.render('posts/Index', { 
       posts, 
       userId: req.author ? req.author._id.toString() : null 

@@ -69,10 +69,10 @@ function Show({ post, userId }) {
       <h2>{post.title}</h2>
       
       <div className="post-content">
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Travel Title:</label>
           <p className="form-input">{post?.title || "My Amazing Trip to..."}</p>
-        </div>
+        </div> */}
 
         <div className="form-group">
           <label>Country:</label>
@@ -237,6 +237,10 @@ function Show({ post, userId }) {
           padding: 20px;
         }
 
+        h2{
+        text-align: center;
+        }
+        
         img {
           border-radius: 8px;
           box-shadow: 0 0 10px rgba(0,0,0,0.1);
