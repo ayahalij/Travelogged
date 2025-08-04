@@ -14,14 +14,7 @@ function Index({ posts, currentUser }) {
             <p>
               By: {post.author?.name || "Unknown Author"}
             </p>
-            <a href={`/posts/${post._id}`}>View</a> |{" "}
-            <a href={`/posts/${post._id}/edit`}>Edit</a>
-            {/* Only show delete if the current user is the author */}
-
-  <form action={`/posts/${post._id}?_method=DELETE`} method="POST">
-  <button type="submit">Delete</button>
-
-</form>
+            <a href={`/posts/${post._id}`}>View Details</a>
           </div>
         ))
       )}

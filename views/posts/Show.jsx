@@ -42,6 +42,28 @@ function Show({ post, userId }) {
 
   const comments = post.comments || [];
 
+  // Check if current user is the post author
+  // Debug logging to see the values
+  console.log('Post author:', post.author);
+  console.log('Post author type:', typeof post.author);
+  console.log('User ID:', userId);
+  console.log('User ID type:', typeof userId);
+  
+  // Handle different possible structures for post.author
+  let authorId = null;
+  if (post.author) {
+    if (typeof post.author === 'object' && post.author._id) {
+      authorId = post.author._id.toString();
+    } else {
+      authorId = post.author.toString();
+    }
+  }
+  
+  const isPostAuthor = authorId && userId && authorId === userId.toString();
+  
+  console.log('Author ID:', authorId);
+  console.log('Is post author:', isPostAuthor);
+
   return (
     <Layout title={`${post.title}`} userId={userId}>
       <h2>{post.title}</h2>
@@ -98,6 +120,11 @@ function Show({ post, userId }) {
         <div className="form-group">
           <label>Travel Story:</label>
           <p className="form-input">{post?.content || "No content available."}</p>
+        </div>
+
+        <div className="form-group">
+          <label>Author:</label>
+          <p className="form-input">{post?.author?.name || "Unknown Author"}</p>
         </div>
 
         {/* Like section */}
@@ -174,10 +201,31 @@ function Show({ post, userId }) {
           </div>
         </div>
 
+        {/* Action buttons - Edit and Delete only show for post author */}
         <div className="form-actions">
           <a href={`/posts/`} className="cancel-btn">Go Back to Posts</a>
-          {post.author && post.author.toString() === userId.toString() && (
-            <a href={`/posts/${post._id}/edit`} className="edit-btn">Edit Post</a>
+        
+          
+          {/* Only show Edit and Delete buttons if current user is the post author */}
+          {isPostAuthor && (
+            <>
+              <a href={`/posts/${post._id}/edit`} className="edit-btn">Edit Post</a>
+              <form 
+                action={`/posts/${post._id}?_method=DELETE`} 
+                method="POST" 
+                className="delete-form"
+                onSubmit="return confirm('Are you sure you want to delete this post? This action cannot be undone.')"
+              >
+                <button type="submit" className="delete-btn">Delete Post</button>
+              </form>
+            </>
+          )}
+          
+          {/* Fallback buttons for testing - remove after debugging */}
+          {!isPostAuthor && (
+            <div style={{ fontSize: '12px', color: '#999' }}>
+              Edit and Delete buttons are hidden because you're not the post author.
+            </div>
           )}
         </div>
       </div>
@@ -437,6 +485,7 @@ function Show({ post, userId }) {
           gap: 10px;
           margin-top: 30px;
           flex-wrap: wrap;
+          align-items: center;
         }
         
         .cancel-btn, .edit-btn {
@@ -465,13 +514,34 @@ function Show({ post, userId }) {
           background-color: #0056b3;
         }
 
+        .delete-form {
+          display: inline-block;
+          margin: 0;
+        }
+
+        .delete-btn {
+          background-color: #dc3545;
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+          background-color: #c82333;
+        }
+
         @media (max-width: 600px) {
           .form-actions {
             flex-direction: column;
           }
           
-          .cancel-btn, .edit-btn {
+          .cancel-btn, .edit-btn, .delete-btn {
             text-align: center;
+            width: 100%;
           }
 
           .comment-input-group {
