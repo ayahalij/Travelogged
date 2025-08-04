@@ -37,7 +37,10 @@ function Edit({ post }) {
               <h1>Edit Your Travel Experience</h1>
             </div>
             
-            <form action={`/posts/${post._id}?_method=PUT`} method="POST" encType="multipart/form-data" className="form-content">
+            <form action={`/posts/${post._id}?_method=PUT`} method="POST" className="form-content">
+              {/* Hidden method field as backup */}
+              <input type="hidden" name="_method" value="PUT" />
+              
               {/* Title - Full Width */}
               <div className="form-group full-width">
                 <label htmlFor="title">Title</label>
@@ -46,7 +49,7 @@ function Edit({ post }) {
                   id="title" 
                   name="title" 
                   required 
-                  defaultValue={post.title}
+                  defaultValue={post.title || ''}
                   placeholder="My Amazing Trip to..."
                 />
               </div>
@@ -60,7 +63,7 @@ function Edit({ post }) {
                     id="country" 
                     name="country" 
                     required 
-                    defaultValue={post.country}
+                    defaultValue={post.country || ''}
                     placeholder="Japan"
                   />
                 </div>
@@ -72,7 +75,7 @@ function Edit({ post }) {
                     id="city" 
                     name="city" 
                     required 
-                    defaultValue={post.city}
+                    defaultValue={post.city || ''}
                     placeholder="Tokyo"
                   />
                 </div>
@@ -98,7 +101,7 @@ function Edit({ post }) {
                     id="duration" 
                     name="duration" 
                     required 
-                    defaultValue={post.duration}
+                    defaultValue={post.duration || ''}
                     placeholder="5 days"
                   />
                 </div>
@@ -118,7 +121,7 @@ function Edit({ post }) {
                       className="file-input"
                     />
                     <div className="file-input-label">
-                      <span>🗁 Choose New Image</span>
+                      <span>🗁 Choose New Image (Optional)</span>
                     </div>
                   </div>
                 </div>
@@ -144,6 +147,7 @@ function Edit({ post }) {
                     alt="Current post image" 
                     className="current-image"
                   />
+                  <input type="hidden" name="currentImageUrl" value={post.imageUrl} />
                 </div>
               )}
 
@@ -160,7 +164,7 @@ function Edit({ post }) {
                   name="content" 
                   rows="6" 
                   required 
-                  defaultValue={post.content}
+                  defaultValue={post.content || ''}
                   placeholder="Tell us about your amazing travel experience..."
                 ></textarea>
               </div>
@@ -204,7 +208,7 @@ function Edit({ post }) {
             max-width: 1200px;
             border: 3px solid #2c5aa0;
           }
-            
+
           .card-header {
             background: #c83434;
             color: white;
@@ -256,7 +260,6 @@ function Edit({ post }) {
             font-size: 14px;
             background-color: #f8f9fa;
             transition: all 0.3s ease;
-            font-family: inherit;
           }
 
           input:focus, textarea:focus {
@@ -348,25 +351,6 @@ function Edit({ post }) {
             box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
           }
 
-          .delete-btn {
-            background: #dc3545;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          }
-
-          .delete-btn:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
-          }
-
           .cancel-btn {
             background: #6c757d;
             color: white;
@@ -419,7 +403,7 @@ function Edit({ post }) {
               align-items: center;
             }
 
-            .submit-btn, .delete-btn, .cancel-btn {
+            .submit-btn, .cancel-btn {
               width: 100%;
               max-width: 200px;
               text-align: center;
