@@ -48,29 +48,53 @@ dataController.create = async (req, res, next) => {
   }
 }
 
+// FIXED show method - only keep this one, remove the duplicate
 dataController.show = async (req, res, next) => {
   try {
-    res.locals.data.post = await Post.findById(req.params.id)
-      .populate('likes', 'username')
-      .populate('comments.commenter', 'username') // Populate the commenter field in embedded comments
+    const post = await Post.findById(req.params.id)
+      .populate('likes', 'name') 
+      .populate('author', 'name')
       .exec();
       
-    if (!res.locals.data.post) {
+    if (!post) {
       throw new Error(`Could not locate a post with the id ${req.params.id}`)
     }
-    
-    // Sort comments by newest first (since they're embedded)
-    if (res.locals.data.post.comments) {
-      res.locals.data.post.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    // Manually fetch commenter details for each comment
+    if (post.comments && post.comments.length > 0) {
+      const Author = require('../../models/auth'); // Import your Author model
+      
+      for (let comment of post.comments) {
+        if (comment.commenter) {
+          const commenter = await Author.findById(comment.commenter).select('name');
+          comment.commenter = commenter; // Replace the ID with the full object
+        }
+      }
     }
     
+    // Sort comments by newest first
+    if (post.comments) {
+      post.comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+    
+    // Debug logging
+    console.log('Post found:', post.title);
+    console.log('Comments count:', post.comments.length);
+    if (post.comments.length > 0) {
+      console.log('First comment:', post.comments[0]);
+      console.log('First comment commenter:', post.comments[0].commenter);
+      console.log('Commenter name:', post.comments[0].commenter?.name);
+    }
+    
+    res.locals.data.post = post;
     next()
   } catch (error) {
+    console.error('Show error:', error);
     res.status(400).send({ message: error.message })
   }
 }
 
-// Add these new methods to your dataController object:
+// FIXED createComment - only keep this one, remove the duplicate
 dataController.createComment = async (req, res, next) => {
   try {
     const { content } = req.body;
@@ -79,6 +103,10 @@ dataController.createComment = async (req, res, next) => {
       return res.status(400).send({ message: 'Comment content is required' });
     }
 
+    // Debug logging
+    console.log('Creating comment with author ID:', req.author._id);
+    console.log('Author object:', req.author);
+
     // Create new comment object
     const newComment = {
       commenter: req.author._id,
@@ -86,12 +114,15 @@ dataController.createComment = async (req, res, next) => {
       createdAt: new Date()
     };
 
+    console.log('New comment object:', newComment);
+
     // Add comment to post using $push
-    await Post.findByIdAndUpdate(req.params.id, {
+    const updatedPost = await Post.findByIdAndUpdate(req.params.id, {
       $push: { comments: newComment }
-    });
+    }, { new: true });
 
     console.log('Comment created successfully');
+    console.log('Updated post comments:', updatedPost.comments);
     next();
   } catch (error) {
     console.error('Comment creation error:', error);
@@ -99,6 +130,7 @@ dataController.createComment = async (req, res, next) => {
   }
 };
 
+// FIXED deleteComment - only keep this one, remove the duplicate
 dataController.deleteComment = async (req, res, next) => {
   try {
     // Find the post and the specific comment

@@ -33,8 +33,8 @@ function Show({ post, userId }) {
   // Get usernames of people who liked (if populated)
   const likedUsernames = post.likes && post.likes.length > 0 
     ? post.likes.map(like => {
-        if (typeof like === 'object' && like.username) {
-          return like.username;
+        if (typeof like === 'object' && like.name) { // Changed from like.username to like.name
+          return like.name;
         }
         return null;
       }).filter(Boolean)
@@ -150,7 +150,7 @@ function Show({ post, userId }) {
               comments.map(comment => (
                 <div key={comment._id} className="comment">
                   <div className="comment-header">
-                    <span className="comment-author">{comment.commenter?.username || 'Anonymous'}</span>
+                    <span className="comment-author">{comment.commenter?.name || 'Anonymous'}</span>
                     <span className="comment-date">{formatCommentDate(comment.createdAt)}</span>
                   </div>
                   <div className="comment-content">

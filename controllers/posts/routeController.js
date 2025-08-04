@@ -59,6 +59,8 @@ router.get('/:id/edit', authDataController.auth, dataController.show, viewContro
 // Show single post details - auth required
 router.get('/:id', authDataController.auth, dataController.show, viewController.show);
 
+// No need to import Comment model since we're using embedded comments
+// Create a comment
 router.post('/:id/comments', authDataController.auth, dataController.createComment, (req, res) => {
   res.redirect(`/posts/${req.params.id}`);
 });

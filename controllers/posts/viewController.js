@@ -17,28 +17,24 @@ exports.index = async (req, res) => {
   }
 }
 
-exports.show = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id)
-      .populate('author', 'name')
-      .exec()
-    
-    if (!post) {
-      return res.status(404).send('Post not found')
-    }
-    
-    console.log('Post author ID:', post.author._id.toString());
-    console.log('Current user ID:', req.author ? req.author._id.toString() : 'No user');
-    console.log('User can edit?', req.author && post.author._id.toString() === req.author._id.toString());
-    
-    res.render('posts/Show', { 
-      post, 
-      userId: req.author ? req.author._id.toString() : null 
-    })
-  } catch (error) {
-    console.error('Error loading post:', error);
-    res.status(500).send('Error loading post')
+// REMOVE THIS METHOD - it's conflicting with dataController.show
+// The dataController.show will provide the post data in res.locals.data.post
+exports.show = (req, res) => {
+  // Use the post data from dataController.show
+  const post = res.locals.data.post;
+  
+  if (!post) {
+    return res.status(404).send('Post not found')
   }
+  
+  console.log('Post author ID:', post.author._id ? post.author._id.toString() : 'No author ID');
+  console.log('Current user ID:', req.author ? req.author._id.toString() : 'No user');
+  console.log('User can edit?', req.author && post.author._id && post.author._id.toString() === req.author._id.toString());
+  
+  res.render('posts/Show', { 
+    post, 
+    userId: req.author ? req.author._id.toString() : null 
+  })
 }
 
 exports.newView = (req, res) => {
