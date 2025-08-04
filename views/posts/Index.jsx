@@ -9,6 +9,7 @@ function Index({ posts, currentUser }) {
         {/* Search Bar */}
         <div className="search-container">
           <div className="search-bar">
+            <span className="search-icon">🔎︎</span>
             <input
               type="text"
               id="searchInput"
@@ -21,16 +22,19 @@ function Index({ posts, currentUser }) {
           </div>
           <p id="searchResults" className="search-results-text" style={{ display: 'none' }}>
           </p>
-        </div>
+        </div>            
+        <div className="create-post-section">
+        <a href="/posts/new" className="create-post-btn">
+          Share Your Travel Story
+        </a>
       </div>
+      </div>
+
 
       <div className="posts-container">
         <div id="noPostsMessage" className="no-posts" style={{ display: 'none' }}>
           <div>
             <p>No posts found matching your search.</p>
-            <button id="clearSearchBtn" className="clear-search-btn">
-              Clear search
-            </button>
           </div>
         </div>
 
@@ -53,76 +57,50 @@ function Index({ posts, currentUser }) {
                 >
                   {/* Post Image */}
                   <div className="post-image-container">
-                    {post.imageUrl ? (
-                      <img 
-                        src={post.imageUrl} 
-                        alt={post.title}
-                        className="post-image"
-                      />
-                    ) : (
-                      <div className="no-image-placeholder">
-                        <span></span>
-                        <p>No Image</p>
-                      </div>
-                    )}
+                    <a href={`/posts/${post._id}`} className="image-link">
+                      {post.imageUrl ? (
+                        <img 
+                          src={post.imageUrl} 
+                          alt={post.title}
+                          className="post-image"
+                        />
+                      ) : (
+                        <div className="no-image-placeholder">
+                          <p>No Image</p>
+                        </div>
+                      )}
+                    </a>
                     
                     {/* Like count overlay */}
-                    <div className="like-overlay">
+                    <div className="like-overlay"> 
+                      {likeCount}  ♡
                       <span className="like-count">
-                        ❤️ {likeCount}
                       </span>
+                    </div>
+
+                    {/* Hover overlay with post info */}
+                    <div className="hover-overlay">
+                      <div className="hover-content">
+                        <h4 className="hover-title">{post.title}</h4>
+                        <div className="hover-author">
+                          <span className="author-icon"></span>
+                          {post.author?.name || "Unknown Author"}
+                        </div>
+                        <div className="hover-location">
+                          <span className="location-icon"></span>
+                          {post.city}, {post.country}
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   {/* Post Content */}
-                  <div className="post-content">
-                    <h3 className="post-title">{post.title}</h3>
                     
-                    <div className="post-location">
-                      <span className="location-icon"></span>
-                      {post.city}, {post.country}
-                    </div>
-                    
-                    <div className="post-author">
-                      <span className="author-icon"></span>
-                      By: {post.author?.name || "Unknown Author"}
-                    </div>
-
-                    {post.travelDate && (
-                      <div className="post-date">
-                        <span className="date-icon"></span>
-                        {new Date(post.travelDate).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric'
-                        })}
-                      </div>
-                    )}
-
-                    {post.content && (
-                      <p className="post-preview">
-                        {post.content.length > 150 
-                          ? post.content.substring(0, 150) + '...' 
-                          : post.content
-                        }
-                      </p>
-                    )}
-
-                    <a href={`/posts/${post._id}`} className="view-details-btn">
-                      View Details →
-                    </a>
-                  </div>
                 </div>
               );
             })}
           </div>
         )}
-      </div>
-
-      <div className="create-post-section">
-        <a href="/posts/new" className="create-post-btn">
-          ✈️ Share Your Travel Story
-        </a>
       </div>
 
       <style jsx>{`
@@ -154,12 +132,24 @@ function Index({ posts, currentUser }) {
           position: relative;
           margin-bottom: 10px;
         }
+        
+        .search-icon {
+          position: absolute;
+          left: 10px;
+          top: 48%;
+          transform: translateY(-50%);
+          color: #c83434;
+          pointer-events: none;
+          font-size: 25px;
+        }
 
         .search-input {
+          padding-left: 20px;
           width: 100%;
-          padding: 15px 50px 15px 20px;
+          padding: 15px 50px 15px 40px;
           font-size: 16px;
-          border: 2px solid #e1e8ed;
+          border: 2px solid #c83434;
+          background-color: #f2f1f1;
           border-radius: 30px;
           outline: none;
           transition: all 0.3s ease;
@@ -190,11 +180,6 @@ function Index({ posts, currentUser }) {
           transition: all 0.3s ease;
         }
 
-        .clear-btn:hover {
-          background-color: #ecf0f1;
-          color: #e74c3c;
-        }
-
         .search-results-text {
           color: #7f8c8d;
           font-size: 14px;
@@ -215,22 +200,6 @@ function Index({ posts, currentUser }) {
           border: 2px dashed #dee2e6;
         }
 
-        .clear-search-btn {
-          background-color: #3498db;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 6px;
-          cursor: pointer;
-          margin-top: 10px;
-          font-weight: 500;
-          transition: background-color 0.3s ease;
-        }
-
-        .clear-search-btn:hover {
-          background-color: #2980b9;
-        }
-
         .posts-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -244,7 +213,7 @@ function Index({ posts, currentUser }) {
           overflow: hidden;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
           transition: all 0.3s ease;
-          border: 1px solid #f1f3f4;
+          border: 2px solid #c83434;
         }
 
         .post-card:hover {
@@ -258,8 +227,17 @@ function Index({ posts, currentUser }) {
 
         .post-image-container {
           position: relative;
-          height: 200px;
+          height: 240px;
           overflow: hidden;
+        }
+
+        .image-link {
+          display: block;
+          
+          width: 100%;
+          height: 100%;
+          text-decoration: none;
+          color: inherit;
         }
 
         .post-image {
@@ -276,7 +254,7 @@ function Index({ posts, currentUser }) {
         .no-image-placeholder {
           width: 100%;
           height: 100%;
-          background: #3fc187ff;
+          background: #3385cf;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -298,13 +276,14 @@ function Index({ posts, currentUser }) {
           position: absolute;
           top: 12px;
           right: 12px;
-          background: rgba(0, 0, 0, 0.7);
+          background:rgba(183, 47, 47, 0.27);
           color: white;
           padding: 6px 12px;
           border-radius: 20px;
           font-size: 14px;
           font-weight: 500;
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(15px);
+          z-index: 2;
         }
 
         .like-count {
@@ -313,64 +292,70 @@ function Index({ posts, currentUser }) {
           gap: 4px;
         }
 
+        /* Hover overlay styles */
+        .hover-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0; 
+          right: 0;
+          height: 50%;
+          background: linear-gradient(to top, rgba(200,52,52, 0.9), rgba(200,52,52, 0.7), transparent);
+          color: white;
+          opacity: 0;
+          transform: translateY(100%);
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: flex-end;
+          padding: 20px;
+          z-index: 1;
+        }
+
+        .post-image-container:hover .hover-overlay {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .hover-content {
+          width: 100%;
+        }
+
+        .hover-title {
+          margin: 0 0 8px 0;
+          font-size: 1.1em;
+          font-weight: 600;
+          color: white;
+          line-height: 1.3;
+        }
+
+        .hover-author, .hover-location {
+          display: flex;
+          align-items: center;
+          margin-bottom: 4px;
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 13px;
+        }
+
+        .hover-author .author-icon,
+        .hover-location .location-icon {
+          margin-right: 6px;
+          font-size: 14px;
+        }
+
         .post-content {
           padding: 20px;
         }
 
-        .post-title {
-          margin: 0 0 12px 0;
-          font-size: 1.3em;
-          font-weight: 600;
-          color: #2c3e50;
-          line-height: 1.3;
-        }
-
-        .post-location, .post-author, .post-date {
-          display: flex;
-          align-items: center;
-          margin-bottom: 8px;
-          color: #5a6c7d;
-          font-size: 14px;
-        }
-
-        .location-icon, .author-icon, .date-icon {
-          margin-right: 6px;
-          font-size: 16px;
-        }
-
-        .post-preview {
-          color: #6c757d;
-          line-height: 1.5;
-          margin: 15px 0;
-          font-size: 14px;
-        }
-
-        .view-details-btn {
-          display: inline-flex;
-          align-items: center;
-          color: #3498db;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 14px;
-          transition: all 0.3s ease;
-          margin-top: 10px;
-        }
-
-        .view-details-btn:hover {
-          color: #2980b9;
-          transform: translateX(5px);
-        }
-
         .create-post-section {
+        
           text-align: center;
-          padding: 40px 0;
+          padding-top:10px;
         }
 
         .create-post-btn {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background: #3fc187ff;
+          background: #004d8d;
           color: white;
           text-decoration: none;
           padding: 15px 30px;
@@ -403,6 +388,14 @@ function Index({ posts, currentUser }) {
           .search-input {
             font-size: 16px; /* Prevents zoom on iOS */
           }
+
+          .hover-overlay {
+            padding: 15px;
+          }
+
+          .hover-title {
+            font-size: 1em;
+          }
         }
 
         @media (max-width: 480px) {
@@ -412,6 +405,18 @@ function Index({ posts, currentUser }) {
           
           .post-content {
             padding: 15px;
+          }
+
+          .hover-overlay {
+            padding: 12px;
+          }
+
+          .hover-title {
+            font-size: 0.9em;
+          }
+
+          .hover-author, .hover-location {
+            font-size: 12px;
           }
         }
       `}</style>
@@ -423,7 +428,6 @@ function Index({ posts, currentUser }) {
             const clearBtn = document.getElementById('clearBtn');
             const searchResults = document.getElementById('searchResults');
             const noPostsMessage = document.getElementById('noPostsMessage');
-            const clearSearchBtn = document.getElementById('clearSearchBtn');
             const postsGrid = document.getElementById('postsGrid');
             const postCards = document.querySelectorAll('.post-card');
             
@@ -480,7 +484,6 @@ function Index({ posts, currentUser }) {
             // Event listeners
             searchInput.addEventListener('input', filterPosts);
             clearBtn.addEventListener('click', clearSearch);
-            clearSearchBtn.addEventListener('click', clearSearch);
             
             // Allow clearing with Escape key
             searchInput.addEventListener('keydown', function(e) {
