@@ -49,6 +49,7 @@ app.use((req, res) => {
   res.status(404).send('Page Not Found')
 })
 
+//uploding images in new folder
 app.use('/uploads', express.static('uploads'));
 
 
