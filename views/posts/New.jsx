@@ -230,7 +230,6 @@ function New() {
             font-size: 14px;
             background-color: #f8f9fa;
             transition: all 0.3s ease;
-            font-family: inherit;
           }
 
           input:focus, textarea:focus {
@@ -304,7 +303,7 @@ function New() {
             font-size: 14px;
             font-weight: 600;
             transition: all 0.3s ease;
-            text-transform: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           }
 
           .submit-btn:hover {

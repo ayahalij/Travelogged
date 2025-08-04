@@ -13,171 +13,432 @@ function Edit({ post }) {
       <head>
         <title>Edit Travel Post</title>
         <link rel="stylesheet" href="/styles.css" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              function previewImage(event) {
+                const preview = document.getElementById('preview');
+                const file = event.target.files[0];
+                if (file) {
+                  preview.src = URL.createObjectURL(file);
+                  preview.style.display = 'block';
+                } else {
+                  preview.style.display = 'none';
+                }
+              }
+            `,
+          }}
+        />
       </head>
       <body>
-        <div className="container">
-          <h1>Edit Your Travel Experience</h1>
-          
-          <form action={`/posts/${post._id}?_method=PUT`} method="POST">
-            <div className="form-group">
-              <label htmlFor="title">Travel Title:</label>
-              <input 
-                type="text" 
-                id="title" 
-                name="title" 
-                required 
-                defaultValue={post.title}
-                placeholder="My Amazing Trip to..."
-              />
+        <div className="page-container">
+          <div className="form-card">
+            <div className="card-header">
+              <h1>Edit Your Travel Experience</h1>
             </div>
+            
+            <form action={`/posts/${post._id}?_method=PUT`} method="POST" encType="multipart/form-data" className="form-content">
+              {/* Title - Full Width */}
+              <div className="form-group full-width">
+                <label htmlFor="title">Title</label>
+                <input 
+                  type="text" 
+                  id="title" 
+                  name="title" 
+                  required 
+                  defaultValue={post.title}
+                  placeholder="My Amazing Trip to..."
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="country">Country:</label>
-              <input 
-                type="text" 
-                id="country" 
-                name="country" 
-                required 
-                defaultValue={post.country}
-                placeholder="Japan"
-              />
-            </div>
+              {/* Country and City - Side by Side */}
+              <div className="form-row">
+                <div className="form-group half-width">
+                  <label htmlFor="country">Country</label>
+                  <input 
+                    type="text" 
+                    id="country" 
+                    name="country" 
+                    required 
+                    defaultValue={post.country}
+                    placeholder="Japan"
+                  />
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="city">City:</label>
-              <input 
-                type="text" 
-                id="city" 
-                name="city" 
-                required 
-                defaultValue={post.city}
-                placeholder="Tokyo"
-              />
-            </div>
+                <div className="form-group half-width">
+                  <label htmlFor="city">City</label>
+                  <input 
+                    type="text" 
+                    id="city" 
+                    name="city" 
+                    required 
+                    defaultValue={post.city}
+                    placeholder="Tokyo"
+                  />
+                </div>
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="travelDate">Travel Date:</label>
-              <input 
-                type="date" 
-                id="travelDate" 
-                name="travelDate" 
-                required 
-                defaultValue={formatDate(post.travelDate)}
-              />
-            </div>
+              {/* Date and Duration - Side by Side */}
+              <div className="form-row">
+                <div className="form-group half-width">
+                  <label htmlFor="travelDate">Date</label>
+                  <input 
+                    type="date" 
+                    id="travelDate" 
+                    name="travelDate" 
+                    required 
+                    defaultValue={formatDate(post.travelDate)}
+                  />
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="duration">Duration:</label>
-              <input 
-                type="text" 
-                id="duration" 
-                name="duration" 
-                required 
-                defaultValue={post.duration}
-                placeholder="5 days"
-              />
-            </div>
+                <div className="form-group half-width">
+                  <label htmlFor="duration">Duration</label>
+                  <input 
+                    type="text" 
+                    id="duration" 
+                    name="duration" 
+                    required 
+                    defaultValue={post.duration}
+                    placeholder="5 days"
+                  />
+                </div>
+              </div>
 
-            <div className="form-group">
-            <label htmlFor="imageUrl">Upload Image:</label>
-            <input 
-                type="file" 
-                accept="image/*"
-                id="imageUrl" 
-                name="imageUrl"
-                onChange="previewImage(event)"
-            />
-            <img id="preview" src="#" alt="Image Preview" style={{ display: 'none', maxWidth: '100%', marginTop: '10px' }} />
-            </div>
+              {/* Image Upload and Background Sound - Side by Side */}
+              <div className="form-row">
+                <div className="form-group half-width">
+                  <label htmlFor="imageUrl">Image</label>
+                  <div className="file-input-container">
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      id="imageUrl" 
+                      name="imageUrl"
+                      onChange="previewImage(event)"
+                      className="file-input"
+                    />
+                    <div className="file-input-label">
+                      <span>🗁 Choose New Image</span>
+                    </div>
+                  </div>
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="backgroundSoundUrl">Background Sound URL:</label>
-              <input 
-                type="url" 
-                id="backgroundSoundUrl" 
-                name="backgroundSoundUrl" 
-                placeholder="https://example.com/sound.mp3"
-              />
-            </div>
+                <div className="form-group half-width">
+                  <label htmlFor="backgroundSoundUrl">Background Sound URL</label>
+                  <input 
+                    type="url" 
+                    id="backgroundSoundUrl" 
+                    name="backgroundSoundUrl" 
+                    defaultValue={post.backgroundSoundUrl || ''}
+                    placeholder="https://example.com/sound.mp3"
+                  />
+                </div>
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="content">Your Travel Story:</label>
-              <textarea 
-                id="content" 
-                name="content" 
-                rows="10" 
-                required 
-                defaultValue={post.content}
-                placeholder="Tell us about your amazing travel experience..."
-              ></textarea>
-            </div>
+              {/* Current Image Display */}
+              {post.imageUrl && (
+                <div className="form-group full-width">
+                  <label>Current Image</label>
+                  <img 
+                    src={post.imageUrl} 
+                    alt="Current post image" 
+                    className="current-image"
+                  />
+                </div>
+              )}
 
-            <div className="form-actions">
-              <button type="submit">Update My Story</button>
-              <a href={`/posts/${post._id}`} className="cancel-btn">Cancel</a>
-            </div>
-          </form>
+              {/* Image Preview */}
+              <div className="form-group full-width">
+                <img id="preview" src="#" alt="Image Preview" className="image-preview" />
+              </div>
+
+              {/* Comment - Full Width */}
+              <div className="form-group full-width">
+                <label htmlFor="content">Comment</label>
+                <textarea 
+                  id="content" 
+                  name="content" 
+                  rows="6" 
+                  required 
+                  defaultValue={post.content}
+                  placeholder="Tell us about your amazing travel experience..."
+                ></textarea>
+              </div>
+
+              {/* Submit Button */}
+              <div className="form-actions">
+                <button type="submit" className="submit-btn">Update My Story</button>
+                <a href={`/posts/${post._id}`} className="cancel-btn">Cancel</a>
+              </div>
+            </form>
+          </div>
         </div>
 
         <style jsx>{`
-          .container {
-            max-width: 600px;
-            margin: 0 auto;
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f7fa;
+            min-height: 100vh;
             padding: 20px;
           }
-          
+
+          .page-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 40px);
+          }
+
+          .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1200px;
+            border: 3px solid #2c5aa0;
+          }
+            
+          .card-header {
+            background: #c83434;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+          }
+
+          .card-header h1 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin: 0;
+          }
+
+          .form-content {
+            padding: 30px;
+          }
+
           .form-group {
             margin-bottom: 20px;
           }
-          
+
+          .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+          }
+
+          .full-width {
+            width: 100%;
+          }
+
+          .half-width {
+            flex: 1;
+          }
+
           label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
           }
-          
+
           input, textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            font-family: inherit;
           }
-          
+
+          input:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+          }
+
           textarea {
             resize: vertical;
+            min-height: 120px;
           }
-          
+
+          .file-input-container {
+            position: relative;
+          }
+
+          .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+          }
+
+          .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 16px;
+            border: 2px dashed #c83434;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+
+          .file-input-label:hover {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+          }
+
+          .current-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            object-fit: cover;
+            display: block;
+          }
+
+          .image-preview {
+            display: none;
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            object-fit: cover;
+          }
+
           .form-actions {
             display: flex;
-            gap: 10px;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
           }
-          
-          button {
-            background-color: #28a745;
+
+          .submit-btn {
+            background: #2c5aa0;
             color: white;
-            padding: 12px 24px;
+            padding: 12px 30px;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           }
-          
-          button:hover {
-            background-color: #218838;
+
+          .submit-btn:hover {
+            background: #1e3d6f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
           }
-          
+
+          .delete-btn {
+            background: #dc3545;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          }
+
+          .delete-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+          }
+
           .cancel-btn {
-            background-color: #6c757d;
+            background: #6c757d;
             color: white;
             padding: 12px 24px;
             text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
           }
-          
+
           .cancel-btn:hover {
-            background-color: #545b62;
+            background: #545b62;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+          }
+
+          /* Mobile Responsive */
+          @media (max-width: 768px) {
+            .page-container {
+              padding: 10px;
+            }
+
+            .form-card {
+              margin: 10px;
+              border-radius: 12px;
+            }
+
+            .form-content {
+              padding: 20px;
+            }
+
+            .form-row {
+              flex-direction: column;
+              gap: 0;
+            }
+
+            .half-width {
+              width: 100%;
+            }
+
+            .card-header h1 {
+              font-size: 1.5em;
+            }
+
+            .form-actions {
+              flex-direction: column;
+              align-items: center;
+            }
+
+            .submit-btn, .delete-btn, .cancel-btn {
+              width: 100%;
+              max-width: 200px;
+              text-align: center;
+              justify-content: center;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .card-header {
+              padding: 15px 20px;
+            }
+
+            .form-content {
+              padding: 15px;
+            }
+
+            input, textarea {
+              font-size: 16px; /* Prevents zoom on iOS */
+            }
           }
         `}</style>
       </body>
