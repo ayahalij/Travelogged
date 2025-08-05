@@ -6,22 +6,6 @@ function New() {
       <head>
         <title>Create New Travel Post</title>
         <link rel="stylesheet" href="/styles.css" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              function previewImage(event) {
-                const preview = document.getElementById('preview');
-                const file = event.target.files[0];
-                if (file) {
-                  preview.src = URL.createObjectURL(file);
-                  preview.style.display = 'block';
-                } else {
-                  preview.style.display = 'none';
-                }
-              }
-            `,
-          }}
-        />
       </head>
       <body>
         <div className="page-container">
@@ -102,7 +86,6 @@ function New() {
                       accept="image/*"
                       id="imageUrl" 
                       name="imageUrl"
-                      onChange="previewImage(event)"
                       className="file-input"
                     />
                     <div className="file-input-label">
@@ -120,11 +103,6 @@ function New() {
                     placeholder="https://example.com/sound.mp3"
                   />
                 </div>
-              </div>
-
-              {/* Image Preview */}
-              <div className="form-group full-width">
-                <img id="preview" src="#" alt="Image Preview" className="image-preview" />
               </div>
 
               {/* Comment - Full Width */}
@@ -273,15 +251,6 @@ function New() {
           .file-input-label:hover {
             border-color: #3498db;
             background-color: #e3f2fd;
-          }
-
-          .image-preview {
-            display: none;
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-            object-fit: cover;
           }
 
           .form-actions {

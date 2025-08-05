@@ -343,30 +343,36 @@ function Show({ post, userId }) {
 
           .image-card {
             background: #2c5aa0;
-            border-radius: 12px;
+            height:450px;
+            padding-top:20px;
+            padding-left:20px;
             overflow: hidden;
             aspect-ratio: 4/3;
             position: relative;
-            
           }
 
           .post-image {
-            width: 100%;
-            height: 100%;
+            width: 95%;
+            height: 90%;
             object-fit: cover;
+            border: 0.03px solid #e9ecef4f;
+            box-shadow: rgba(232, 234, 235, 0.76) 0px 8px 24px;
           }
 
-          .no-image-placeholder {
-            width: 100%;
-            height: 100%;
-            background: #6c757d;
+          .no-image-placeholder {            
+            padding-top:20px;
+            padding-left:20px;
+            width: 95%;
+            height: 90%;            
+            border: 0.03px solid #e9ecef4f;
+            box-shadow: rgba(232, 234, 235, 0.76) 0px 8px 24px;            
+            background: #b0c9f3ff;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 3em;
-            position: relative;
+            font-size: 2em;
           }
 
           .like-section {
@@ -374,10 +380,6 @@ function Show({ post, userId }) {
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 15px;
-            background: white;
-            border-radius: 12px;
-            border: 2px solid #e9ecef;
           }
 
           .like-form {

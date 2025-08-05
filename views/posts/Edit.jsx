@@ -13,22 +13,6 @@ function Edit({ post }) {
       <head>
         <title>Edit Travel Post</title>
         <link rel="stylesheet" href="/styles.css" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              function previewImage(event) {
-                const preview = document.getElementById('preview');
-                const file = event.target.files[0];
-                if (file) {
-                  preview.src = URL.createObjectURL(file);
-                  preview.style.display = 'block';
-                } else {
-                  preview.style.display = 'none';
-                }
-              }
-            `,
-          }}
-        />
       </head>
       <body>
         <div className="page-container">
@@ -150,11 +134,6 @@ function Edit({ post }) {
                   <input type="hidden" name="currentImageUrl" value={post.imageUrl} />
                 </div>
               )}
-
-              {/* Image Preview */}
-              <div className="form-group full-width">
-                <img id="preview" src="#" alt="Image Preview" className="image-preview" />
-              </div>
 
               {/* Comment - Full Width */}
               <div className="form-group full-width">
@@ -312,15 +291,6 @@ function Edit({ post }) {
             border: 2px solid #e9ecef;
             object-fit: cover;
             display: block;
-          }
-
-          .image-preview {
-            display: none;
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-            object-fit: cover;
           }
 
           .form-actions {
