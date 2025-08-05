@@ -85,7 +85,7 @@ function Show({ post, userId }) {
               {/* Left Side - Post Details */}
               <div className="post-details-card">
                 <div className="detail-item">
-                  <label>Username</label>
+                  <label>Creator</label>
                   <div className="detail-value">{post?.author?.name || "Unknown Author"}</div>
                 </div>
 
@@ -138,16 +138,6 @@ function Show({ post, userId }) {
                 </div>
               </div>
             </div>
-
-            {/* Background Sound Section */}
-            {post?.backgroundSoundUrl && (
-              <div className="sound-section">
-                <label>Background Sound:</label>
-                <a href={post.backgroundSoundUrl} target="_blank" rel="noreferrer" className="sound-link">
-                  🎵 Listen to background sound
-                </a>
-              </div>
-            )}
 
             {/* Like Details */}
             {likedUsernames.length > 0 && (
@@ -420,30 +410,6 @@ function Show({ post, userId }) {
             font-size: 1.2em;
             font-weight: 600;
             color: #dc3545;
-          }
-
-          .sound-section {
-            padding: 20px 30px;
-            background: #f8f9fa;
-            margin: 20px 30px;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-          }
-
-          .sound-section label {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-right: 10px;
-          }
-
-          .sound-link {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: 500;
-          }
-
-          .sound-link:hover {
-            text-decoration: underline;
           }
 
           .liked-by-section {

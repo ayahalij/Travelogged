@@ -109,17 +109,6 @@ function Edit({ post }) {
                     </div>
                   </div>
                 </div>
-
-                <div className="form-group half-width">
-                  <label htmlFor="backgroundSoundUrl">Background Sound URL</label>
-                  <input 
-                    type="url" 
-                    id="backgroundSoundUrl" 
-                    name="backgroundSoundUrl" 
-                    defaultValue={post.backgroundSoundUrl || ''}
-                    placeholder="https://example.com/sound.mp3"
-                  />
-                </div>
               </div>
 
               {/* Current Image Display */}

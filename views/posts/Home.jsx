@@ -13,7 +13,7 @@ function Home() {
         <header className="header">
           <div className="header-content">
             <h1 className="logo">Travelogged</h1>
-            <a href="/authors" className="login-signup-btn">Signup</a>
+            <a href="/authors" className="login-signup-btn">Signup / Login</a>
           </div>
         </header>
 
@@ -21,15 +21,14 @@ function Home() {
         <section className="hero">
           <div className="hero-content">
             <div className="hero-image">
-                <image src=''></image>
-            
+                <image src='/HomePagePhoto2.jpg' className="hero-image"></image>
             </div>
             <div className="hero-text">
               <h2 className="heading">Welcome to <span className="highlight">Travelogged</span></h2>
               <p className="hero-description">
                 <span className="highlight">Travelogged</span>, is your digital travel diary — a place where your journeys become timeless memories. Whether you're exploring new lands or revisiting favorite places, share your experiences with the world and keep them safe for years to come.
               </p>
-              <a href="#about-section" className="learn-more-btn">Learn more about it Travelogged</a>
+              <a href="#about-section" className="learn-more-btn">Learn more about Travelogged</a>
 
             </div>
           </div>
@@ -38,7 +37,7 @@ function Home() {
         {/* Steps Section */}
         <section className="steps">
           <div className="steps-content">
-            <h2 className="steps-title">Four Steps to Use Travelogged</h2>
+            <h2 className="steps-title">Four Steps to Use <span className="highlight">Travelogged</span></h2>
             <div className="steps-grid">
               <div className="step">
                 <div className="step-icon">
@@ -124,25 +123,25 @@ function Home() {
           }
 
           .logo {
-            font-size: 24px;
+            font-size: 40px;
             font-weight: bold;
-            color: #4a90e2;
+            color: #2c5aa0;
             margin: 0;
           }
 
           .login-signup-btn {
-            background-color: #a94442;
+            background-color: #c83434;
             color: white;
             padding: 8px 16px;
             border: none;
             border-radius: 20px;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 18px;
             transition: background-color 0.3s ease;
           }
 
           .login-signup-btn:hover {
-            background-color: #843534;
+            background-color: #c83434;
           }
 
           /* Hero Section */
@@ -161,10 +160,12 @@ function Home() {
           }
 
           .hero-image {
-            border:red;
-            flex: 1;
-            display: flex;
             justify-content: center;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, #5e201f35 0px 50px 100px -20px, rgba(0, 0, 0, 0.19) 0px 30px 60px -30px;
           }
 
 
@@ -181,19 +182,20 @@ function Home() {
           }
 
           .hero-description {
-            font-size: 16px;
+            font-size: 17px;
             line-height: 1.6;
             margin-bottom: 30px;
             color: #666;
+            padding-bottom:15px;
           }
 
           .highlight {
-            color: #4a90e2;
+            color: #2c5aa0;
             font-weight: bold;
           }
 
           .learn-more-btn {
-            background-color: #a94442;
+            background-color: #c83434;
             color: white;
             padding: 12px 24px;
             border: none;
@@ -204,13 +206,13 @@ function Home() {
           }
 
           .learn-more-btn:hover {
-            background-color: #843534;
+            background-color: #a61a28ff;
           }
 
           /* Steps Section */
           .steps {
             background-color: white;
-            padding: 60px 0;
+            padding: 40px 0;
             border-top: 1px solid #ddd;
             height:300px;
           }
@@ -244,9 +246,10 @@ function Home() {
           }
 
           .step-icon {
-            width: 80px;
-            height: 80px;
-            background-color: #4a90e2;
+            width: 90px;
+            height: 90px;
+            background-color: #2c5aa0;
+            border:7px solid #1e3d6f;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -255,11 +258,15 @@ function Home() {
             transition: all 0.3s ease;
             cursor: pointer;
             font-size:45px;
+            color: #fcf7f7ff;
           }
 
           .step-icon:hover {
+                      box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, #5e201f35 0px 50px 100px -20px, rgba(0, 0, 0, 0.19) 0px 30px 60px -30px;
+
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 5px 5px #5e201f86;
+            box-shadow: 5e201f86 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
           }
 
           .step-icon svg {
@@ -324,17 +331,17 @@ function Home() {
           }
 
           .about-description {
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.6;
             margin-bottom: 30px;
             color: #666;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            text-align: justify;
+            max-width:1100px ;
+            padding-left: 50px;
           }
 
           .member-btn {
-            background-color: #a94442;
+            background-color: #c83434;
             color: white;
             padding: 12px 24px;
             border: none;
@@ -347,7 +354,7 @@ function Home() {
           }
 
           .member-btn:hover {
-            background-color: #843534;
+            background-color: #a61a28ff;
           }
 
           /* Responsive Design */

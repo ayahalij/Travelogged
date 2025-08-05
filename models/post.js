@@ -28,10 +28,6 @@ const postSchema = new mongoose.Schema({
     type: String, // e.g., "5 days", "2 weeks"
     required: true,
   },
-  backgroundSoundUrl: {
-    type: String, // URL or filename of background sound
-    required: false,
-  },
   content: {
     type: String, // The blog/story content
     required: true,

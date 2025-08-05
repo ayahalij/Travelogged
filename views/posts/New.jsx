@@ -93,21 +93,11 @@ function New() {
                     </div>
                   </div>
                 </div>
-
-                <div className="form-group half-width">
-                  <label htmlFor="backgroundSoundUrl">Background Sound URL</label>
-                  <input 
-                    type="url" 
-                    id="backgroundSoundUrl" 
-                    name="backgroundSoundUrl" 
-                    placeholder="https://example.com/sound.mp3"
-                  />
-                </div>
               </div>
 
               {/* Comment - Full Width */}
               <div className="form-group full-width">
-                <label htmlFor="content">Comment</label>
+                <label htmlFor="content">Blog</label>
                 <textarea 
                   id="content" 
                   name="content" 
