@@ -111,6 +111,9 @@ function Index({ posts, currentUser }) {
                   </div>
                 )}
               </div>
+              <div className="form-actions">
+               <a href="/authors" className="logout-btn">Log Out</a>
+            </div>
             </div>
           </div>
         </div>
@@ -422,6 +425,33 @@ function Index({ posts, currentUser }) {
             font-size: 14px;
           }
 
+          .form-actions {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+          }
+
+          .logout-btn{
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: #6c757d;
+          }
+
+          .logout-btn:hover{
+            background: #545b62;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+          }
+
           /* Mobile Responsive */
           @media (max-width: 968px) {
             .page-container {
@@ -468,6 +498,11 @@ function Index({ posts, currentUser }) {
             .hover-title {
               font-size: 1em;
             }
+
+            .form-actions {
+              flex-direction: column;
+              align-items: center;
+            }
           }
 
           @media (max-width: 480px) {
@@ -507,6 +542,11 @@ function Index({ posts, currentUser }) {
               width: 100%;
               max-width: 280px;
               justify-content: center;
+            
+            .form-actions {
+              margin: 20px 10px;
+            }
+
             }
           }
         `}</style>
