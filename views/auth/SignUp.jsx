@@ -51,7 +51,19 @@ function SignUp() {
                   required 
                 />
               </div>
-              
+
+              <div className="form-group">
+                <label htmlFor="bio">Bio</label>
+                <textarea 
+                  name="bio" 
+                  id="bio"
+                  rows="4"
+                  required
+                  className="form-input"
+                  placeholder="Enter your personal bio"
+                ></textarea>
+              </div>
+
               <button type="submit" className="btn-primary">Sign Up</button>
             </form>
             

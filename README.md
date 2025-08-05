@@ -109,7 +109,7 @@
     │
     ├── models/                   # Mongoose models
     │   ├── db.js                 # MongoDB connection setup
-    │   ├── user.js               # User (traveler) schema
+    │   ├── auth.js               # User (traveler) schema
     │   └── post.js               # Travel post schema
     │
     ├── controllers/              # App logic organized by feature
@@ -124,6 +124,10 @@
     │       ├── routeController.js    # Travel post routes
     │       └── viewController.js     # Render post-related views
     │
+    ├── public/                   # Image folder
+    │   ├── uploads/              # User image uploding
+    │   └── images                # Images for the project
+    │
     ├── routes/
     │   └── apiRoutes.js          # API route configuration
     │
@@ -137,16 +141,15 @@
     │       ├── Index.jsx         # Explore all travel posts
     │       ├── Show.jsx          # Single travel experience view
     │       ├── New.jsx           # Create new travel post
-    │       └── Edit.jsx          # Edit an existing post
+    │       ├── Edit.jsx          # Edit an existing post
+    │       └── Home.jsx          # Show web home page
     │
     ├── public/
     │   ├── styles.css            # Custom styles
     │   └── banner.jpg            # Homepage or post banner image
     │
     ├── tests/
-    │   ├── user.test.js          # Tests for user-related features
-    │   ├── post.test.js          # Tests for travel posts
-    │   └── integration.test.js   # End-to-end route and flow tests
+    │   ├── auth.test.js          # Tests for user-related features
     │
     └── README.md                 # Project overview and instructions
 
