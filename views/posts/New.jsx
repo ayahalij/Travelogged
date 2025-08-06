@@ -10,6 +10,33 @@ function New() {
       <body>
         <div className="page-container">
           <div className="form-card">
+            
+               {/* Navigation Bar */}
+            <nav className="navbar">
+              <div className="nav-container">
+                <div className="nav-brand">
+                    Travelogged
+                </div>
+                
+                <div className="nav-links">
+                  <a href="/posts" className="nav-link">
+                    <span className="nav-icon">🏠︎</span>Home
+                  </a>
+                  <a href="/posts/new" className="nav-link active">
+                    <span className="nav-icon">✦</span>
+                    Create Post
+                  </a>
+                  <a href="/profile" className="nav-link">
+                    <span className="nav-icon">☰</span>
+                    Profile
+                  </a>
+                  <a href="/" className="nav-link logout">
+                    <span className="nav-icon">⍈</span>
+                    Log Out
+                  </a>
+                </div>
+              </div>
+            </nav>
             <div className="card-header">
               <h1>Share Your Travel Experience</h1>
             </div>
@@ -145,6 +172,82 @@ function New() {
             width: 100%;
             max-width: 1200px;
             border: 3px solid #2c5aa0;
+          }
+
+           /* Navigation Bar Styles */
+          .navbar {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
+            color: white;
+            position: relative;
+            z-index: 1000;
+          }
+
+          .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+          }
+
+          .nav-brand {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 40px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+          }
+
+          .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 17px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          }
+
+          .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          }
+
+          .nav-link.logout {
+            background: rgba(200, 52, 52, 0.8);
+            margin-left: 8px;
+          }
+
+          .nav-link.logout:hover {
+            background: rgba(200, 52, 52, 1);
+          }
+
+          .nav-icon {
+            font-size: 16px;
           }
 
           .card-header {

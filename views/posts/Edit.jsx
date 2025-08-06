@@ -17,6 +17,8 @@ function Edit({ post }) {
       <body>
         <div className="page-container">
           <div className="form-card">
+
+            
             <div className="card-header">
               <h1>Edit Your Travel Experience</h1>
             </div>
