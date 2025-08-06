@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser')
 const authorRoutes = require('./controllers/auth/routeController')
 const postRoutes = require('./controllers/posts/routeController')
 const profileRoutes = require('./controllers/profile/profileRoutes')
+const userRoutes = require('./controllers/user/userRoutes')  // Add this line
 const apiRoutes = require('./routes/apiRoutes')
 
 const app = express()
@@ -42,7 +43,8 @@ app.get('/', (req, res) => {
 // Web routes (views)
 app.use('/authors', authorRoutes)
 app.use('/posts', postRoutes)
-app.use('/profile', profileRoutes) // Added profile routes
+app.use('/profile', profileRoutes)
+app.use('/user', userRoutes)  // Add this line - this should handle /user/:userId routes
 
 // API routes (JSON)
 app.use('/api', apiRoutes)

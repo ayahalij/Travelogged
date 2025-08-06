@@ -1,9 +1,9 @@
 // controllers/auth/profileViewController.js
 const profileViewController = {};
 
-// Render the profile page
+// Render the profile page (own profile)
 profileViewController.show = (req, res) => {
-  const { user, userPosts, likedPosts, userComments } = res.locals.data;
+  const { user, userPosts, likedPosts, userComments }  = res.locals.data;
   
   res.render('auth/Profile', {
     user,
@@ -11,6 +11,20 @@ profileViewController.show = (req, res) => {
     likedPosts,
     userComments,
     currentUser: req.author // For consistency with other views
+  });
+};
+
+// NEW: Render the public profile page (any user's profile)
+profileViewController.showPublic = (req, res) => {
+  const { user, userPosts, likedPosts, userComments, isOwnProfile } = res.locals.data;
+  
+  res.render('auth/PublicProfile', {
+    user,
+    userPosts,
+    likedPosts,
+    userComments,
+    currentUser: req.author,
+    isOwnProfile // Whether the current user is viewing their own profile
   });
 };
 

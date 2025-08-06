@@ -1,6 +1,6 @@
 const React = require('react');
 
-function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
+function PublicProfile({ user, userPosts, likedPosts, userComments, currentUser, isOwnProfile }) {
   // Format date for display
   const formatDate = (date) => {
     if (!date) return 'Unknown';
@@ -32,18 +32,29 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                   <a href="/posts" className="nav-link">
                     <span className="nav-icon">🏠︎</span>Home
                   </a>
-                  <a href="/posts/new" className="nav-link">
-                    <span className="nav-icon">✦</span>
-                    Create Post
-                  </a>
-                  <a href="/profile" className="nav-link active">
-                    <span className="nav-icon">☰</span>
-                    Profile
-                  </a>
-                  <a href="/" className="nav-link logout">
-                    <span className="nav-icon">⍈</span>
-                    Log Out
-                  </a>
+                  {currentUser && (
+                    <>
+                      <a href="/posts/new" className="nav-link">
+                        <span className="nav-icon">✦</span>
+                        Create Post
+                      </a>
+                      <a href="/profile" className="nav-link">
+                        <span className="nav-icon">☰</span>
+                        My Profile
+                      </a>
+                    </>
+                  )}
+                  {currentUser ? (
+                    <a href="/" className="nav-link logout">
+                      <span className="nav-icon">⍈</span>
+                      Log Out
+                    </a>
+                  ) : (
+                    <a href="/authors/signin" className="nav-link">
+                      <span className="nav-icon">↳</span>
+                      Sign In
+                    </a>
+                  )}
                 </div>
               </div>
             </nav>
@@ -51,6 +62,9 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             {/* Card top */}
             <div className="card-header">
               <h1>{user.name}'s Profile</h1>
+              {isOwnProfile && (
+                <p className="profile-note">This is your profile - others see this view</p>
+              )}
             </div>
 
             <div className="card-content">
@@ -64,11 +78,21 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                   </div>
                   
                   <div className="profile-details">
-                    <p className="profile-name"> <span className="highlighted">Name: </span> {user.name}</p>
-                    <p className="profile-email"> <span className="highlighted">Email: </span> {user.email}</p>
+                    <p className="profile-name"> 
+                      <span className="highlighted">Name: </span> {user.name}
+                    </p>
+                    
+                    {/* Only show email if it's the user's own profile */}
+                    {isOwnProfile && (
+                      <p className="profile-email"> 
+                        <span className="highlighted">Email: </span> {user.email}
+                      </p>
+                    )}
 
                     {user.bio && (
-                      <p className="profile-bio"> <span className="highlighted">Bio: </span> {user.bio}</p>
+                      <p className="profile-bio"> 
+                        <span className="highlighted">Bio: </span> {user.bio}
+                      </p>
                     )}
                     
                     <div className="profile-stats">
@@ -86,11 +110,14 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                       </div>
                     </div>
                     
-                    <div className="profile-actions">
-                      <a href="/profile/edit" className="edit-profile-btn">
-                        Edit Profile
-                      </a>
-                    </div>
+                    {/* Only show edit button if it's their own profile */}
+                    {isOwnProfile && (
+                      <div className="profile-actions">
+                        <a href="/profile/edit" className="edit-profile-btn">
+                          Edit Profile
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -100,9 +127,9 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                 <div className="tabs-nav">
                   <button 
                     className="tab-btn active" 
-                    data-tab="my-posts"
+                    data-tab="user-posts"
                   >
-                    My Posts ({userPosts.length})
+                    Posts ({userPosts.length})
                   </button>
                   <button 
                     className="tab-btn" 
@@ -112,29 +139,27 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                   </button>
                   <button 
                     className="tab-btn" 
-                    data-tab="my-comments"
+                    data-tab="user-comments"
                   >
-                    My Comments ({userComments.length})
+                    Comments ({userComments.length})
                   </button>
                 </div>
 
-                {/* My Posts Tab */}
-                <div className="tab-content active" id="my-posts">
+                {/* User Posts Tab */}
+                <div className="tab-content active" id="user-posts">
                   <div className="posts-header">
-                    <h3>My Travel Stories</h3>
-                    <a href="/posts/new" className="create-post-btn">
-                      Create New Post
-                    </a>
+                    <h3>{isOwnProfile ? 'My Travel Stories' : `${user.name}'s Travel Stories`}</h3>
+                    {isOwnProfile && (
+                      <a href="/posts/new" className="create-post-btn">
+                        Create New Post
+                      </a>
+                    )}
                   </div>
                   
                   {userPosts.length === 0 ? (
                     <div className="no-posts">
                       <div className="no-posts-icon">✈︎</div>
-                      <h4>No posts yet</h4>
-                      <p>Share your travel experiences with the world!</p>
-                      <a href="/posts/new" className="create-first-post-btn">
-                        Create Your First Post
-                      </a>
+                      <h4>{isOwnProfile ? 'No posts yet' : `${user.name} hasn't shared any posts yet`}</h4>
                     </div>
                   ) : (
                     <div className="posts-grid">
@@ -162,15 +187,18 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                                 <p className="post-location">{post.city}, {post.country}</p>
                                 <p className="post-date">{formatDate(post.travelDate)}</p>
                                 <div className="post-stats">
-                                  <span className="like-count">♡️ {likeCount}</span>
+                                  <span className="like-count">♡ {likeCount}</span>
                                 </div>
                               </div>
                               
-                              <div className="post-actions">
-                                <a href={`/posts/${post._id}/edit`} className="action-btn edit">
-                                  ✎
-                                </a>
-                              </div>
+                              {/* Only show edit button if it's their own profile */}
+                              {isOwnProfile && (
+                                <div className="post-actions">
+                                  <a href={`/posts/${post._id}/edit`} className="action-btn edit">
+                                    ✎
+                                  </a>
+                                </div>
+                              )}
                             </div>
                           </div>
                         );
@@ -182,17 +210,13 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                 {/* Liked Posts Tab */}
                 <div className="tab-content" id="liked-posts">
                   <div className="posts-header">
-                    <h3>Posts I Liked</h3>
+                    <h3>{isOwnProfile ? 'Posts I Liked' : `Posts ${user.name} Liked`}</h3>
                   </div>
                   
                   {likedPosts.length === 0 ? (
                     <div className="no-posts">
                       <div className="no-posts-icon">❤︎</div>
-                      <h4>No liked posts yet</h4>
-                      <p>Explore amazing travel stories and like your favorites!</p>
-                      <a href="/posts" className="explore-posts-btn">
-                        Explore Posts
-                      </a>
+                      <h4>{isOwnProfile ? 'No liked posts yet' : `${user.name} hasn't liked any posts yet`}</h4>
                     </div>
                   ) : (
                     <div className="posts-grid">
@@ -217,7 +241,7 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                               
                               <div className="post-overlay">
                                 <h4 className="post-title">{post.title}</h4>
-                                <p className="post-author">by {post.author?.name || 'Unknown'}</p>
+                                <p className="post-author">by <a href={`/user/${post.author._id}`} className="author-link">{post.author?.name || 'Unknown'}</a></p>
                                 <p className="post-location">{post.city}, {post.country}</p>
                                 <p className="post-date">{formatDate(post.travelDate)}</p>
                                 <div className="post-stats">
@@ -232,20 +256,16 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                   )}
                 </div>
 
-                {/* My Comments Tab */}
-                <div className="tab-content" id="my-comments">
+                {/* User Comments Tab */}
+                <div className="tab-content" id="user-comments">
                   <div className="posts-header">
-                    <h3>My Comments</h3>
+                    <h3>{isOwnProfile ? 'My Comments' : `${user.name}'s Comments`}</h3>
                   </div>
                   
                   {userComments.length === 0 ? (
                     <div className="no-posts">
                       <div className="no-posts-icon">🗨</div>
-                      <h4>No comments yet</h4>
-                      <p>Join the conversation and share your thoughts on travel stories!</p>
-                      <a href="/posts" className="explore-posts-btn">
-                        Explore Posts
-                      </a>
+                      <h4>{isOwnProfile ? 'No comments yet' : `${user.name} hasn't commented yet`}</h4>
                     </div>
                   ) : (
                     <div className="comments-list">
@@ -259,7 +279,7 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                                 </a>
                               </h4>
                               <p className="comment-post-author">
-                                by {comment.post.author?.name || 'Unknown'}
+                                by <a href={`/user/${comment.post.author._id}`} className="author-link">{comment.post.author?.name || 'Unknown'}</a>
                               </p>
                             </div>
                             <div className="comment-date">
@@ -403,6 +423,13 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             margin: 0;
           }
 
+          .profile-note {
+            margin: 10px 0 0 0;
+            font-size: 0.9em;
+            opacity: 0.9;
+            font-style: italic;
+          }
+
           .card-content {
             padding: 30px;
           }
@@ -445,34 +472,27 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             flex: 1;
           }
 
-
           .highlighted {
              color:#2c5aa0;
               font-weight: 600;
           }
 
-          .profile-name {
-            font-size: 1.3em;
-            margin: 0 0 20px 0;
-            opacity: 0.9;
-            padding-top:10px;
-            color: #4b5660ff;
-          }
-
-          .profile-email {
+          .profile-name, .profile-email, .profile-bio {
             font-size: 1.3em;
             margin: 0 0 15px 0;
             opacity: 0.9;
             color: #4b5660ff;
           }
 
+          .profile-name {
+            padding-top: 10px;
+            margin-bottom: 20px;
+          }
+
           .profile-bio {
-            font-size: 1.3em;
-            margin: 0 0 20px 0;
-            opacity: 0.9;
+            margin-bottom: 20px;
             line-height: 1.5;
             max-width: 750px;
-            color: #4b5660ff;
           }
 
           .profile-stats {
@@ -584,7 +604,7 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             margin: 0;
           }
 
-          .create-post-btn, .create-first-post-btn, .explore-posts-btn {
+          .create-post-btn, .create-first-post-btn{
             background: #2c5aa0;
             color: white;
             text-decoration: none;
@@ -596,7 +616,7 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             display: inline-block;
           }
 
-          .create-post-btn:hover, .create-first-post-btn:hover, .explore-posts-btn:hover {
+          .create-post-btn:hover, .create-first-post-btn:hover {
             background: #1e3d6f;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(44, 90, 160, 0.3);
@@ -762,6 +782,17 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             color: #2c5aa0;
           }
 
+          .author-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+          }
+
+          .author-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+          }
+
           /* Comments List Styles */
           .comments-list {
             display: flex;
@@ -860,16 +891,6 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             transform: translateY(-1px);
             box-shadow: 0 2px 8px rgba(44, 90, 160, 0.3);
           }
-
-          /* Form Actions */
-          .form-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 20px;
-            border-top: 1px solid #e9ecef;
-            flex-wrap: wrap;
-          }
         `}</style>
 
         <script dangerouslySetInnerHTML={{
@@ -899,4 +920,4 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
   );
 }
 
-module.exports = Profile;
+module.exports = PublicProfile;

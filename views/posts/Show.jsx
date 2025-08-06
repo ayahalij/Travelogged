@@ -1,5 +1,4 @@
 const React = require('react');
-const Layout = require('../layouts/Layout');
 
 function Show({ post, userId }) {
   // Format the date for the input field
@@ -33,8 +32,11 @@ function Show({ post, userId }) {
   // Get usernames of people who liked (if populated)
   const likedUsernames = post.likes && post.likes.length > 0 
     ? post.likes.map(like => {
-        if (typeof like === 'object' && like.name) { // Changed from like.username to like.name
-          return like.name;
+        if (typeof like === 'object' && like.name) {
+          return {
+            id: like._id,
+            name: like.name
+          };
         }
         return null;
       }).filter(Boolean)
@@ -43,13 +45,6 @@ function Show({ post, userId }) {
   const comments = post.comments || [];
 
   // Check if current user is the post author
-  // Debug logging to see the values
-  console.log('Post author:', post.author);
-  console.log('Post author type:', typeof post.author);
-  console.log('User ID:', userId);
-  console.log('User ID type:', typeof userId);
-  
-  // Handle different possible structures for post.author
   let authorId = null;
   if (post.author) {
     if (typeof post.author === 'object' && post.author._id) {
@@ -60,9 +55,6 @@ function Show({ post, userId }) {
   }
   
   const isPostAuthor = authorId && userId && authorId === userId.toString();
-  
-  console.log('Author ID:', authorId);
-  console.log('Is post author:', isPostAuthor);
 
   return (
     <html>
@@ -73,7 +65,7 @@ function Show({ post, userId }) {
       <body>
         <div className="page-container">
           <div className="main-container">
-                           {/* Navigation Bar */}
+            {/* Navigation Bar */}
             <nav className="navbar">
               <div className="nav-container">
                 <div className="nav-brand">
@@ -112,9 +104,13 @@ function Show({ post, userId }) {
               {/* Left Side - Post Details */}
               <div className="post-details-card">
                 <div className="detail-item">
-                  <label>Creator</label>
-                  <div className="detail-value">{post?.author?.name || "Unknown Author"}</div>
-                </div>
+
+                    <label>Creator</label>
+                    <div className="detail-value">
+                      <a href={`/user/${post?.author?._id}`} className="author-link">
+                      {post?.author?.name || "Unknown Author"}</a>
+                    </div>
+                  </div>
 
                 <div className="detail-item">
                   <label>Country</label>
@@ -170,7 +166,16 @@ function Show({ post, userId }) {
             {likedUsernames.length > 0 && (
               <div className="liked-by-section">
                 <p className="liked-by-text">
-                  <strong>Liked by:</strong> {likedUsernames.join(', ')}
+                  <strong>Liked by:</strong> {
+                    likedUsernames.map((user, index) => (
+                      <span key={user.id}>
+                        <a href={`/user/${user.id}`} className="liked-user-link">
+                          {user.name}
+                        </a>
+                        {index < likedUsernames.length - 1 ? ', ' : ''}
+                      </span>
+                    ))
+                  }
                 </p>
               </div>
             )}
@@ -206,7 +211,11 @@ function Show({ post, userId }) {
                   comments.map(comment => (
                     <div key={comment._id} className="comment">
                       <div className="comment-header">
-                        <span className="comment-author">{comment.commenter?.name || 'Anonymous'}</span>
+                        <span className="comment-author">
+                          <a href={`/user/${comment.commenter?._id}`} className="commenter-link">
+                            {comment.commenter?.name || 'Anonymous'}
+                          </a>
+                        </span>
                         <span className="comment-date">{formatCommentDate(comment.createdAt)}</span>
                       </div>
                       <div className="comment-content">
@@ -266,7 +275,7 @@ function Show({ post, userId }) {
             padding: 20px;
           }
 
-                     /* Navigation Bar Styles */
+          /* Navigation Bar Styles */
           .navbar {
             background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
             color: white;
@@ -410,6 +419,18 @@ function Show({ post, userId }) {
             min-height: 45px;
             display: flex;
             align-items: center;
+          }
+
+          .author-link {
+            color: #2c5aa0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+          }
+
+          .author-link:hover {
+            color: #1e3d6f;
+            text-decoration: underline;
           }
 
           .blog-section {

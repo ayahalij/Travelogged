@@ -123,10 +123,12 @@
     │   │   ├── apiController.js            # Travel post API logic
     │   │   ├── routeController.js          # Travel post routes
     │   │   └── viewController.js           # Render post-related views
-    │   └── profile/
-    │       ├── profileController.js        # Travel post DB operations
-    │       ├── profileRoutes.js            # Travel post API logic
-    │       └── profileViewController.js    # Travel post routes
+    │   ├── profile/
+    │   │   ├── profileController.js        # Travel post DB operations
+    │   │   ├── profileRoutes.js            # Travel post API logic
+    │   │   └── profileViewController.js    # Travel post routes
+    │   └── user/
+    │   │   └── userRoutes.js           # User route configuration
     │
     ├── public/                   # Image folder
     │   ├── uploads/              # User image uploding
@@ -139,18 +141,15 @@
     │   ├── auth/
     │   │   ├── SignUp.jsx        # User registration page
     │   │   ├── SignIn.jsx        # User login page
-    │   │   ├── Profile.jsx       # User profile page
-    │   │   └── EditProfile.jsx   # Edit user page
+    │   │   ├── Profile.jsx       # Current user profile page
+    │   │   ├── EditProfile.jsx   # Edit user page
+    │   │   └── PublicProfile.jsx # Users public profile page
     │   └── posts/
     │       ├── Index.jsx         # Explore all travel posts
     │       ├── Show.jsx          # Single travel experience view
     │       ├── New.jsx           # Create new travel post
     │       ├── Edit.jsx          # Edit an existing post
     │       └── Home.jsx          # Show web home page
-    │
-    ├── public/
-    │   ├── styles.css            # Custom styles
-    │   └── banner.jpg            # Homepage or post banner image
     │
     ├── tests/
     │   ├── auth.test.js          # Tests for user-related features

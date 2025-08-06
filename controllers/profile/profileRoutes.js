@@ -5,7 +5,7 @@ const dataController = require('../auth/dataController');
 const profileController = require('./profileController');
 const profileViewController = require('./profileViewController');
 
-// Show profile page - auth required
+// Show profile page - auth required (own profile)
 router.get('/', dataController.auth, profileController.getProfile, profileViewController.show);
 
 // Show edit profile form - auth required

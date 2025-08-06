@@ -2,7 +2,9 @@ const Author = require('../../models/auth') // Change to User if you switched mo
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-exports.auth = async (req, res, next) => {
+const dataController = {};
+
+dataController.auth = async (req, res, next) => {
   try {
     let token;
     
@@ -44,7 +46,7 @@ exports.auth = async (req, res, next) => {
   }
 };
 
-exports.createAuthor = async (req, res, next) => {
+dataController.createAuthor = async (req, res, next) => {
   try {
     console.log('Creating author with data:', req.body);
     const author = new Author(req.body)
@@ -69,7 +71,7 @@ exports.createAuthor = async (req, res, next) => {
   }
 }
 
-exports.loginAuthor = async (req, res, next) => {
+dataController.loginAuthor = async (req, res, next) => {
   try {
     console.log('Login attempt for email:', req.body.email);
     
@@ -105,3 +107,25 @@ exports.loginAuthor = async (req, res, next) => {
   }
 };
 
+dataController.optionalAuth = async (req, res, next) => {
+  try {
+    const token = req.cookies.token || req.headers.authorization?.replace('Bearer ', '');
+    
+    if (token) {
+      const decoded = jwt.verify(token, 'secret');
+      const author = await Author.findById(decoded._id);
+      
+      if (author) {
+        req.author = author;
+      }
+    }
+    
+    // Always proceed to next middleware, whether authenticated or not
+    next();
+  } catch (error) {
+    // If there's an error with the token, just continue without auth
+    next();
+  }
+};
+
+module.exports = dataController;
