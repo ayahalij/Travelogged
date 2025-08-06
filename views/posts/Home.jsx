@@ -357,55 +357,6 @@ function Home() {
             background-color: #a61a28ff;
           }
 
-          /* Responsive Design */
-          @media (max-width: 768px) {
-            .hero-content {
-              flex-direction: column;
-              gap: 40px;
-            }
-
-            .heading {
-              font-size: 36px;
-            }
-
-            .steps-grid {
-              flex-wrap: wrap;
-              gap: 30px;
-            }
-
-            .step {
-              min-width: 120px;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .header-content {
-              padding: 0 15px;
-            }
-
-            .hero-content, .steps-content, .about-content {
-              padding: 0 15px;
-            }
-
-
-            .heading {
-              font-size: 28px;
-            }
-
-            .steps-grid {
-              gap: 20px;
-            }
-
-            .step-icon {
-              width: 60px;
-              height: 60px;
-            }
-
-            .step-icon svg {
-              width: 30px;
-              height: 30px;
-            }
-          }
         `}</style>
       </body>
     </html>

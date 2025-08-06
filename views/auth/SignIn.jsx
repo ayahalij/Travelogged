@@ -176,44 +176,6 @@ function SignIn() {
           text-decoration: underline;
           color: #1d4ed8;
         }
-
-        /* Mobile Responsive */
-        @media (max-width: 480px) {
-          .auth-container {
-            padding: 10px;
-          }
-
-          .auth-card {
-            max-width: 100%;
-          }
-
-          .card-content {
-            padding: 24px 20px;
-          }
-
-          .card-header {
-            padding: 24px 20px;
-          }
-
-          .card-header h1 {
-            font-size: 24px;
-          }
-
-          .form-input {
-            font-size: 16px; /* Prevents zoom on iOS */
-          }
-        }
-
-        /* Accessibility improvements */
-        @media (prefers-reduced-motion: reduce) {
-          .auth-card {
-            animation: none;
-          }
-          
-          .auth-card:hover {
-            transform: none;
-          }
-        }
       `}</style>
       </body>
     </html>

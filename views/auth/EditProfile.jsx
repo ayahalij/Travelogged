@@ -215,49 +215,6 @@ function EditProfile({ user, currentUser }) {
           .save-btn:active {
             transform: translateY(0);
           }
-
-          /* Mobile Responsive */
-          @media (max-width: 768px) {
-            .page-container {
-              padding: 10px;
-            }
-
-            .main-card {
-              border-radius: 12px;
-            }
-
-            .card-content {
-              padding: 25px;
-            }
-
-            .form-actions {
-              flex-direction: column;
-              align-items: center;
-            }
-
-            .cancel-btn, .save-btn {
-              width: 100%;
-              max-width: 280px;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .card-header {
-              padding: 15px 20px;
-            }
-
-            .card-header h1 {
-              font-size: 1.6em;
-            }
-
-            .card-content {
-              padding: 20px;
-            }
-
-            .form-input, .form-textarea {
-              font-size: 16px; /* Prevents zoom on iOS */
-            }
-          }
         `}</style>
 
         <script dangerouslySetInnerHTML={{

@@ -328,61 +328,6 @@ function Edit({ post }) {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
           }
-
-          /* Mobile Responsive */
-          @media (max-width: 768px) {
-            .page-container {
-              padding: 10px;
-            }
-
-            .form-card {
-              margin: 10px;
-              border-radius: 12px;
-            }
-
-            .form-content {
-              padding: 20px;
-            }
-
-            .form-row {
-              flex-direction: column;
-              gap: 0;
-            }
-
-            .half-width {
-              width: 100%;
-            }
-
-            .card-header h1 {
-              font-size: 1.5em;
-            }
-
-            .form-actions {
-              flex-direction: column;
-              align-items: center;
-            }
-
-            .submit-btn, .cancel-btn {
-              width: 100%;
-              max-width: 200px;
-              text-align: center;
-              justify-content: center;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .card-header {
-              padding: 15px 20px;
-            }
-
-            .form-content {
-              padding: 15px;
-            }
-
-            input, textarea {
-              font-size: 16px; /* Prevents zoom on iOS */
-            }
-          }
         `}</style>
       </body>
     </html>
