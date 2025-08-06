@@ -1,7 +1,7 @@
 // controllers/auth/profileRoutes.js
 const express = require('express');
 const router = express.Router();
-const dataController = require('./dataController');
+const dataController = require('../auth/dataController');
 const profileController = require('./profileController');
 const profileViewController = require('./profileViewController');
 

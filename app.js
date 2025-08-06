@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser')
 
 const authorRoutes = require('./controllers/auth/routeController')
 const postRoutes = require('./controllers/posts/routeController')
-const profileRoutes = require('./controllers/auth/profileRoutes') // Added profile routes
+const profileRoutes = require('./controllers/profile/profileRoutes')
 const apiRoutes = require('./routes/apiRoutes')
 
 const app = express()
