@@ -64,10 +64,11 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                   </div>
                   
                   <div className="profile-details">
-                    <h2 className="profile-name">Name: {user.name}</h2>
-                    <p className="profile-email">Email: {user.email}</p>
+                    <p className="profile-name"> <span className="highlighted">Name: </span> {user.name}</p>
+                    <p className="profile-email"> <span className="highlighted">Email: </span> {user.email}</p>
+
                     {user.bio && (
-                      <p className="profile-bio">Bio: {user.bio}</p>
+                      <p className="profile-bio"> <span className="highlighted">Bio: </span> {user.bio}</p>
                     )}
                     
                     <div className="profile-stats">
@@ -444,24 +445,34 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             flex: 1;
           }
 
+
+          .highlighted {
+             color:#2c5aa0;
+              font-weight: 600;
+          }
+
           .profile-name {
-            font-size: 2em;
-            margin: 0 0 10px 0;
-            font-weight: 600;
+            font-size: 1.3em;
+            margin: 0 0 20px 0;
+            opacity: 0.9;
+            padding-top:10px;
+            color: #4b5660ff;
           }
 
           .profile-email {
-            font-size: 1.1em;
+            font-size: 1.3em;
             margin: 0 0 15px 0;
             opacity: 0.9;
+            color: #4b5660ff;
           }
 
           .profile-bio {
-            font-size: 1em;
+            font-size: 1.3em;
             margin: 0 0 20px 0;
             opacity: 0.9;
             line-height: 1.5;
-            max-width: 500px;
+            max-width: 750px;
+            color: #4b5660ff;
           }
 
           .profile-stats {
@@ -479,6 +490,8 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             display: block;
             font-size: 1.8em;
             font-weight: bold;
+            color:#2c5aa0;
+            font-weight: 600;
           }
 
           .stat-label {
