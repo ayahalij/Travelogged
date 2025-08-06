@@ -1,16 +1,6 @@
 const React = require('react');
 
 function PublicProfile({ user, userPosts, likedPosts, userComments, currentUser, isOwnProfile }) {
-  // Format date for display
-  const formatDate = (date) => {
-    if (!date) return 'Unknown';
-    const d = new Date(date);
-    return d.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
 
   return (
     <html>
@@ -185,7 +175,6 @@ function PublicProfile({ user, userPosts, likedPosts, userComments, currentUser,
                               <div className="post-overlay">
                                 <h4 className="post-title">{post.title}</h4>
                                 <p className="post-location">{post.city}, {post.country}</p>
-                                <p className="post-date">{formatDate(post.travelDate)}</p>
                                 <div className="post-stats">
                                   <span className="like-count">♡ {likeCount}</span>
                                 </div>
@@ -243,7 +232,6 @@ function PublicProfile({ user, userPosts, likedPosts, userComments, currentUser,
                                 <h4 className="post-title">{post.title}</h4>
                                 <p className="post-author">by <a href={`/user/${post.author._id}`} className="author-link">{post.author?.name || 'Unknown'}</a></p>
                                 <p className="post-location">{post.city}, {post.country}</p>
-                                <p className="post-date">{formatDate(post.travelDate)}</p>
                                 <div className="post-stats">
                                   <span className="like-count">♡ {likeCount}</span>
                                 </div>
@@ -282,9 +270,7 @@ function PublicProfile({ user, userPosts, likedPosts, userComments, currentUser,
                                 by <a href={`/user/${comment.post.author._id}`} className="author-link">{comment.post.author?.name || 'Unknown'}</a>
                               </p>
                             </div>
-                            <div className="comment-date">
-                              {formatDate(comment.createdAt)}
-                            </div>
+
                           </div>
                           <div className="comment-content">
                             {comment.content}
@@ -730,7 +716,7 @@ function PublicProfile({ user, userPosts, likedPosts, userComments, currentUser,
             line-height: 1.3;
           }
 
-          .post-author, .post-location, .post-date {
+          .post-author, .post-location{
             font-size: 0.9em;
             margin: 0 0 5px 0;
             opacity: 0.9;
@@ -851,13 +837,6 @@ function PublicProfile({ user, userPosts, likedPosts, userComments, currentUser,
             color: #6c757d;
           }
 
-          .comment-date {
-            font-size: 0.85em;
-            color: #6c757d;
-            text-align: right;
-            flex-shrink: 0;
-            margin-left: 15px;
-          }
 
           .comment-content {
             color: #495057;

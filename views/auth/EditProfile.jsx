@@ -262,13 +262,7 @@ function EditProfile({ user, currentUser }) {
                   return;
                 }
                 
-                // Basic email validation
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                  e.preventDefault();
-                  alert('Please enter a valid email address.');
-                  return;
-                }
+              
               });
             });
           `

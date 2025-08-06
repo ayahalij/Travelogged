@@ -174,10 +174,11 @@ dataController.update = async (req, res, next) => {
     console.log('Request URL:', req.url);
     console.log('Post ID:', req.params.id);
     console.log('Raw req.body:', req.body);
+    console.log('Files:', req.file); // For single file upload
     console.log('Author ID:', req.author ? req.author._id : 'No author');
     
     // Check if we have data to update
-    if (!req.body || typeof req.body !== 'object' || Object.keys(req.body).length === 0) {
+    if (!req.body || typeof req.body !== 'object') {
       throw new Error('No update data received');
     }
     
@@ -187,34 +188,48 @@ dataController.update = async (req, res, next) => {
       throw new Error('Post not found');
     }
     
-    console.log('Existing post author:', existingPost.author);
-    console.log('Existing post author type:', typeof existingPost.author);
-    console.log('Current user ID:', req.author._id);
-    console.log('Current user ID type:', typeof req.author._id);
-    
-    // Convert both to strings for comparison
+    // Check authorization
     const postAuthorId = existingPost.author.toString();
     const currentUserId = req.author._id.toString();
     
-    console.log('Post author ID (string):', postAuthorId);
-    console.log('Current user ID (string):', currentUserId);
-    console.log('IDs match?', postAuthorId === currentUserId);
-    
-    // Check if the current user is the author of the post
     if (postAuthorId !== currentUserId) {
       throw new Error('Not authorized to edit this post');
     }
     
-    res.locals.data.post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    // Prepare update data
+    const updateData = { ...req.body };
+    
+    // Handle image upload
+    if (req.file) {
+      // New image was uploaded, use it
+      updateData.imageUrl = `/uploads/${req.file.filename}`;
+      console.log('New image uploaded:', updateData.imageUrl);
+    } else if (req.body.currentImageUrl) {
+      // No new image, preserve the existing one
+      updateData.imageUrl = req.body.currentImageUrl;
+      console.log('Preserving existing image:', updateData.imageUrl);
+    }
+    // If neither condition is met, imageUrl will be undefined/null
+    
+    // Remove the currentImageUrl field as it's not part of the schema
+    delete updateData.currentImageUrl;
+    
+    console.log('Final update data:', updateData);
+    
+    res.locals.data.post = await Post.findByIdAndUpdate(
+      req.params.id, 
+      updateData, 
+      { new: true }
+    );
     
     console.log('Post updated successfully:', res.locals.data.post._id);
+    console.log('Updated image URL:', res.locals.data.post.imageUrl);
     next();
   } catch (error) {
     console.error('Post update error:', error.message);
     res.status(400).send({ message: error.message });
   }
 }
-
 dataController.destroy = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id).populate("author");
