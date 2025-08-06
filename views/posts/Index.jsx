@@ -10,6 +10,39 @@ function Index({ posts, currentUser }) {
       <body>
         <div className="page-container">
           <div className="main-card">
+            {/* Navigation Bar */}
+            <nav className="navbar">
+              <div className="nav-container">
+                <div className="nav-brand">
+                    Travelogged
+                </div>
+                
+                <div className="nav-links">
+                  <a href="/posts" className="nav-link active">
+                    <span className="nav-icon">🏠︎</span>Home
+                  </a>
+                  <a href="/posts/new" className="nav-link">
+                    <span className="nav-icon">✦</span>
+                    Create Post
+                  </a>
+                  {/* {currentUser && (
+                    <a href={`/profile/${currentUser._id}`} className="nav-link">
+                      <span className="nav-icon">👤</span>
+                      Profile
+                    </a>
+                  )} */}
+                  <a href="/profile" className="nav-link">
+                    <span className="nav-icon">☰</span>
+                    Profile
+                  </a>
+                  <a href="/" className="nav-link logout">
+                    <span className="nav-icon">⍈</span>
+                    Log Out
+                  </a>
+                </div>
+              </div>
+            </nav>
+
             <div className="card-header">
               <h1>Travel Stories</h1>
             </div>
@@ -111,9 +144,6 @@ function Index({ posts, currentUser }) {
                   </div>
                 )}
               </div>
-              <div className="form-actions">
-               <a href="/authors" className="logout-btn">Log Out</a>
-            </div>
             </div>
           </div>
         </div>
@@ -146,6 +176,82 @@ function Index({ posts, currentUser }) {
             width: 100%;
             max-width: 1200px;
             border: 3px solid #2c5aa0;
+          }
+
+          /* Navigation Bar Styles */
+          .navbar {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%);
+            color: white;
+            position: relative;
+            z-index: 1000;
+          }
+
+          .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+          }
+
+          .nav-brand {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 40px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+          }
+
+          .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 17px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          }
+
+          .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          }
+
+          .nav-link.logout {
+            background: rgba(200, 52, 52, 0.8);
+            margin-left: 8px;
+          }
+
+          .nav-link.logout:hover {
+            background: rgba(200, 52, 52, 1);
+          }
+
+          .nav-icon {
+            font-size: 16px;
           }
 
           .card-header {
@@ -425,33 +531,6 @@ function Index({ posts, currentUser }) {
             font-size: 14px;
           }
 
-          .form-actions {
-            display: flex;
-            justify-content: center;
-            margin: 10px;
-            padding: 20px;
-            border-top: 1px solid #e9ecef;
-          }
-
-          .logout-btn{
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 25px;
-            display: inline-flex;
-            align-items: center;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            background: #6c757d;
-          }
-
-          .logout-btn:hover{
-            background: #545b62;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
-          }
-
           /* Mobile Responsive */
           @media (max-width: 968px) {
             .page-container {
@@ -461,6 +540,18 @@ function Index({ posts, currentUser }) {
             .main-card {
               margin: 0;
               border-radius: 12px;
+            }
+
+            .nav-container {
+              padding: 12px 20px;
+            }
+
+            .nav-links {
+              display: none;
+            }
+
+            .mobile-menu-btn {
+              display: flex;
             }
 
             .card-header {
@@ -499,15 +590,34 @@ function Index({ posts, currentUser }) {
               font-size: 1em;
             }
 
-            .form-actions {
+            .search-bar-wrapper {
               flex-direction: column;
-              align-items: center;
+              gap: 15px;
+            }
+
+            .search-container {
+              min-width: auto;
+              width: 100%;
+            }
+
+            .create-post-btn {
+              width: 100%;
+              max-width: 280px;
+              justify-content: center;
             }
           }
 
           @media (max-width: 480px) {
             .page-container {
               padding: 10px;
+            }
+
+            .nav-container {
+              padding: 10px 15px;
+            }
+
+            .brand-link {
+              font-size: 1.2em;
             }
 
             .card-header {
@@ -537,17 +647,6 @@ function Index({ posts, currentUser }) {
             .hover-author, .hover-location {
               font-size: 12px;
             }
-
-            .create-post-btn {
-              width: 100%;
-              max-width: 280px;
-              justify-content: center;
-            
-            .form-actions {
-              margin: 20px 10px;
-            }
-
-            }
           }
         `}</style>
 
@@ -560,6 +659,31 @@ function Index({ posts, currentUser }) {
               const noPostsMessage = document.getElementById('noPostsMessage');
               const postsGrid = document.getElementById('postsGrid');
               const postCards = document.querySelectorAll('.post-card');
+              const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+              const mobileMenu = document.getElementById('mobileMenu');
+              
+              // Mobile menu toggle
+              mobileMenuBtn.addEventListener('click', function() {
+                mobileMenuBtn.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+              });
+
+              // Close mobile menu when clicking on a link
+              const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+              mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                  mobileMenuBtn.classList.remove('active');
+                  mobileMenu.classList.remove('active');
+                });
+              });
+
+              // Close mobile menu when clicking outside
+              document.addEventListener('click', function(e) {
+                if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                  mobileMenuBtn.classList.remove('active');
+                  mobileMenu.classList.remove('active');
+                }
+              });
               
               function filterPosts() {
                 const query = searchInput.value.toLowerCase().trim();
