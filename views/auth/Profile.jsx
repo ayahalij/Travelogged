@@ -64,10 +64,10 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
                   </div>
                   
                   <div className="profile-details">
-                    <h2 className="profile-name">{user.name}</h2>
-                    <p className="profile-email">{user.email}</p>
+                    <h2 className="profile-name">Name: {user.name}</h2>
+                    <p className="profile-email">Email: {user.email}</p>
                     {user.bio && (
-                      <p className="profile-bio">{user.bio}</p>
+                      <p className="profile-bio">Bio: {user.bio}</p>
                     )}
                     
                     <div className="profile-stats">
@@ -437,7 +437,7 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             font-size: 2.5em;
             font-weight: bold;
             backdrop-filter: blur(10px);
-            border: 3px solid #c83434;
+            border: 3px solid #2c5aa0;
           }
 
           .profile-details {
@@ -501,7 +501,7 @@ function Profile({ user, userPosts, likedPosts, userComments, currentUser }) {
             font-weight: 600;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            border: 2px solid #c83434;
+            border: 2px solid #2c5aa0;
             display: inline-block;
           }
 
