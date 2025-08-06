@@ -541,31 +541,6 @@ function Index({ posts, currentUser }) {
               const noPostsMessage = document.getElementById('noPostsMessage');
               const postsGrid = document.getElementById('postsGrid');
               const postCards = document.querySelectorAll('.post-card');
-              const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-              const mobileMenu = document.getElementById('mobileMenu');
-              
-              // Mobile menu toggle
-              mobileMenuBtn.addEventListener('click', function() {
-                mobileMenuBtn.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-              });
-
-              // Close mobile menu when clicking on a link
-              const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-              mobileNavLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                  mobileMenuBtn.classList.remove('active');
-                  mobileMenu.classList.remove('active');
-                });
-              });
-
-              // Close mobile menu when clicking outside
-              document.addEventListener('click', function(e) {
-                if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
-                  mobileMenuBtn.classList.remove('active');
-                  mobileMenu.classList.remove('active');
-                }
-              });
               
               function filterPosts() {
                 const query = searchInput.value.toLowerCase().trim();
