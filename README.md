@@ -114,15 +114,19 @@
     │
     ├── controllers/              # App logic organized by feature
     │   ├── auth/
-    │   │   ├── dataController.js     # Auth-related DB operations
-    │   │   ├── apiController.js      # Login/signup API logic
-    │   │   ├── routeController.js    # Auth route definitions
-    │   │   └── viewController.js     # Render auth views
-    │   └── posts/
-    │       ├── dataController.js     # Travel post DB operations
-    │       ├── apiController.js      # Travel post API logic
-    │       ├── routeController.js    # Travel post routes
-    │       └── viewController.js     # Render post-related views
+    │   │   ├── dataController.js           # Auth-related DB operations
+    │   │   ├── apiController.js            # Login/signup API logic
+    │   │   ├── routeController.js          # Auth route definitions
+    │   │   └── viewController.js           # Render auth views
+    │   ├── posts/
+    │   │   ├── dataController.js           # Travel post DB operations
+    │   │   ├── apiController.js            # Travel post API logic
+    │   │   ├── routeController.js          # Travel post routes
+    │   │   └── viewController.js           # Render post-related views
+    │   └── profile/
+    │       ├── profileController.js        # Travel post DB operations
+    │       ├── profileRoutes.js            # Travel post API logic
+    │       └── profileViewController.js    # Travel post routes
     │
     ├── public/                   # Image folder
     │   ├── uploads/              # User image uploding
@@ -132,11 +136,11 @@
     │   └── apiRoutes.js          # API route configuration
     │
     ├── views/                    # Frontend views using JSX
-    │   ├── layouts/
-    │   │   └── Layout.jsx        # Main layout template
     │   ├── auth/
     │   │   ├── SignUp.jsx        # User registration page
-    │   │   └── SignIn.jsx        # User login page
+    │   │   ├── SignIn.jsx        # User login page
+    │   │   ├── Profile.jsx       # User profile page
+    │   │   └── EditProfile.jsx   # Edit user page
     │   └── posts/
     │       ├── Index.jsx         # Explore all travel posts
     │       ├── Show.jsx          # Single travel experience view
