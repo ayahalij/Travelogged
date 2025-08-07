@@ -299,7 +299,7 @@ function Home() {
           .step-text h3 {
             font-size: 16px;
             font-weight: bold;
-            color: #333;
+            color: #c83434;
             margin-bottom: 4px;
           }
 
