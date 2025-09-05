@@ -21,8 +21,7 @@ function Home() {
         <section className="hero">
           <div className="hero-content">
             <div className="hero-image">
-                <image src='/HomePagePhoto2.jpg' className="hero-image"></image>
-
+                <img src='/HomePagePhoto2.jpg' className="hero-image" alt="Travel destination" />
             </div>
             <div className="hero-text">
               <h2 className="heading">Welcome to <span className="highlight">Travelogged</span></h2>
@@ -30,7 +29,6 @@ function Home() {
                 <span className="highlight">Travelogged</span>, is your digital travel diary — a place where your journeys become timeless memories. Whether you're exploring new lands or revisiting favorite places, share your experiences with the world and keep them safe for years to come.
               </p>
               <a href="#about-section" className="learn-more-btn">Learn more about Travelogged</a>
-
             </div>
           </div>
         </section>
@@ -134,7 +132,6 @@ function Home() {
             background-color: #c83434;
             color: white;
             padding: 8px 16px;
-            border: none;
             border-radius: 20px;
             text-decoration: none;
             font-size: 18px;
@@ -142,7 +139,7 @@ function Home() {
           }
 
           .login-signup-btn:hover {
-            background-color: #c83434;
+            background-color: #a61a28ff;
           }
 
           /* Hero Section */
@@ -169,7 +166,6 @@ function Home() {
             box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, #5e201f35 0px 50px 100px -20px, rgba(0, 0, 0, 0.19) 0px 30px 60px -30px;
           }
 
-
           .hero-text {
             flex: 1;
             text-align: center;
@@ -187,7 +183,7 @@ function Home() {
             line-height: 1.6;
             margin-bottom: 30px;
             color: #666;
-            padding-bottom:15px;
+            padding-bottom: 15px;
           }
 
           .highlight {
@@ -204,6 +200,8 @@ function Home() {
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
           }
 
           .learn-more-btn:hover {
@@ -215,7 +213,7 @@ function Home() {
             background-color: white;
             padding: 40px 0;
             border-top: 1px solid #ddd;
-            height:300px;
+            min-height: 300px;
           }
 
           .steps-content {
@@ -229,13 +227,15 @@ function Home() {
             font-weight: bold;
             margin-bottom: 40px;
             color: #333;
+            text-align: center;
           }
 
           .steps-grid {
             display: flex;
             justify-content: space-around;
-            align-items: center;
+            align-items: flex-start;
             gap: 20px;
+            flex-wrap: wrap;
           }
 
           .step {
@@ -244,13 +244,15 @@ function Home() {
             align-items: center;
             text-align: center;
             position: relative;
+            flex: 1;
+            min-width: 200px;
           }
 
           .step-icon {
             width: 90px;
             height: 90px;
             background-color: #2c5aa0;
-            border:7px solid #1e3d6f;
+            border: 7px solid #1e3d6f;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -258,16 +260,13 @@ function Home() {
             color: white;
             transition: all 0.3s ease;
             cursor: pointer;
-            font-size:45px;
+            font-size: 45px;
             color: #fcf7f7ff;
           }
 
           .step-icon:hover {
-                      box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, #5e201f35 0px 50px 100px -20px, rgba(0, 0, 0, 0.19) 0px 30px 60px -30px;
-
+            box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, #5e201f35 0px 50px 100px -20px, rgba(0, 0, 0, 0.19) 0px 30px 60px -30px;
             transform: translateY(-5px);
-            box-shadow: 0 5px 5px #5e201f86;
-            box-shadow: 5e201f86 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
           }
 
           .step-icon svg {
@@ -337,7 +336,7 @@ function Home() {
             margin-bottom: 30px;
             color: #666;
             text-align: justify;
-            max-width:1100px ;
+            max-width: 1100px;
             padding-left: 50px;
           }
 
@@ -358,6 +357,266 @@ function Home() {
             background-color: #a61a28ff;
           }
 
+          /* RESPONSIVE MEDIA QUERIES */
+
+          /* Large tablets and small desktops */
+          @media (max-width: 1024px) {
+            .header-content,
+            .hero-content,
+            .steps-content,
+            .about-content {
+              max-width: 960px;
+            }
+
+            .hero-content {
+              gap: 40px;
+            }
+
+            .hero-image {
+              width: 350px;
+              height: 350px;
+            }
+
+            .heading {
+              font-size: 42px;
+            }
+
+            .about-description {
+              padding-left: 30px;
+            }
+          }
+
+          /* Tablets */
+          @media (max-width: 768px) {
+            .header {
+              padding: 15px 0;
+            }
+
+            .header-content {
+              padding: 0 15px;
+            }
+
+            .logo {
+              font-size: 32px;
+            }
+
+            .login-signup-btn {
+              font-size: 16px;
+              padding: 6px 14px;
+            }
+
+            /* Hero Section Mobile */
+            .hero {
+              padding: 40px 0;
+            }
+
+            .hero-content {
+              flex-direction: column;
+              gap: 30px;
+              text-align: center;
+            }
+
+            .hero-image {
+              width: 280px;
+              height: 280px;
+              order: 2;
+            }
+
+            .hero-text {
+              order: 1;
+            }
+
+            .heading {
+              font-size: 36px;
+            }
+
+            .hero-description {
+              font-size: 16px;
+              text-align: center;
+            }
+
+            /* Steps Section Mobile */
+            .steps {
+              padding: 30px 0;
+              min-height: auto;
+            }
+
+            .steps-content {
+              padding: 0 15px;
+            }
+
+            .steps-title {
+              font-size: 28px;
+              margin-bottom: 30px;
+            }
+
+            .steps-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 30px;
+              justify-items: center;
+            }
+
+            .step {
+              min-width: auto;
+            }
+
+            .step-icon {
+              width: 80px;
+              height: 80px;
+              font-size: 38px;
+            }
+
+            .step-text {
+              position: static;
+              transform: none;
+              opacity: 1;
+              visibility: visible;
+              background: transparent;
+              box-shadow: none;
+              white-space: normal;
+              margin-top: 15px;
+            }
+
+            .step:hover .step-text {
+              transform: none;
+            }
+
+            /* About Section Mobile */
+            .about {
+              padding: 40px 0;
+            }
+
+            .about-content {
+              padding: 0 15px;
+              text-align: center;
+            }
+
+            .about-title {
+              font-size: 28px;
+            }
+
+            .about-description {
+              font-size: 16px;
+              padding-left: 0;
+              text-align: left;
+            }
+          }
+
+          /* Mobile phones */
+          @media (max-width: 480px) {
+            .header-content {
+              padding: 0 10px;
+            }
+
+            .logo {
+              font-size: 28px;
+            }
+
+            .login-signup-btn {
+              font-size: 14px;
+              padding: 5px 12px;
+            }
+
+            /* Hero Section Small Mobile */
+            .hero-content {
+              padding: 0 10px;
+            }
+
+            .hero-image {
+              width: 240px;
+              height: 240px;
+            }
+
+            .heading {
+              font-size: 28px;
+            }
+
+            .hero-description {
+              font-size: 15px;
+            }
+
+            .learn-more-btn {
+              font-size: 14px;
+              padding: 10px 20px;
+            }
+
+            /* Steps Section Small Mobile */
+            .steps-content {
+              padding: 0 10px;
+            }
+
+            .steps-title {
+              font-size: 24px;
+            }
+
+            .steps-grid {
+              grid-template-columns: 1fr;
+              gap: 25px;
+            }
+
+            .step-icon {
+              width: 70px;
+              height: 70px;
+              font-size: 32px;
+              border: 5px solid #1e3d6f;
+            }
+
+            .step-icon svg {
+              width: 30px;
+              height: 30px;
+            }
+
+            .step-text h3 {
+              font-size: 18px;
+            }
+
+            .step-text p {
+              font-size: 14px;
+            }
+
+            /* About Section Small Mobile */
+            .about-content {
+              padding: 0 10px;
+            }
+
+            .about-title {
+              font-size: 24px;
+            }
+
+            .about-description {
+              font-size: 15px;
+            }
+
+            .member-btn {
+              font-size: 14px;
+              padding: 10px 20px;
+            }
+          }
+
+          /* Extra small devices */
+          @media (max-width: 360px) {
+            .logo {
+              font-size: 24px;
+            }
+
+            .hero-image {
+              width: 200px;
+              height: 200px;
+            }
+
+            .heading {
+              font-size: 24px;
+            }
+
+            .steps-title {
+              font-size: 20px;
+            }
+
+            .about-title {
+              font-size: 20px;
+            }
+          }
         `}</style>
       </body>
     </html>

@@ -451,15 +451,15 @@ function Show({ post, userId }) {
           .image-section {
             display: flex;
             flex-direction: column;
-            padding-top:100px;
+            padding-top: 100px;
             gap: 20px;
           }
 
           .image-card {
             background: #2c5aa0;
-            height:450px;
-            padding-top:20px;
-            padding-left:20px;
+            height: 450px;
+            padding-top: 20px;
+            padding-left: 20px;
             overflow: hidden;
             aspect-ratio: 4/3;
             position: relative;
@@ -474,8 +474,8 @@ function Show({ post, userId }) {
           }
 
           .no-image-placeholder {            
-            padding-top:20px;
-            padding-left:20px;
+            padding-top: 20px;
+            padding-left: 20px;
             width: 95%;
             height: 90%;            
             border: 0.03px solid #e9ecef4f;
@@ -547,6 +547,26 @@ function Show({ post, userId }) {
           .liked-by-text {
             margin: 0;
             color: #1565c0;
+          }
+
+          .liked-user-link {
+            color: #2c5aa0;
+            text-decoration: none;
+            font-weight: 600;
+          }
+
+          .liked-user-link:hover {
+            text-decoration: underline;
+          }
+
+          .commenter-link {
+            color: #2c5aa0;
+            text-decoration: none;
+            font-weight: 600;
+          }
+
+          .commenter-link:hover {
+            text-decoration: underline;
           }
 
           .comments-section {
@@ -762,6 +782,328 @@ function Show({ post, userId }) {
             box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
           }
 
+          /* RESPONSIVE MEDIA QUERIES */
+
+          /* Large tablets and small desktops */
+          @media (max-width: 1024px) {
+            body {
+              padding: 15px;
+            }
+
+            .nav-container {
+              padding: 15px 20px;
+            }
+
+            .nav-brand {
+              font-size: 32px;
+            }
+
+            .content-layout {
+              grid-template-columns: 1fr 350px;
+              gap: 25px;
+              padding: 25px;
+            }
+
+            .image-section {
+              padding-top: 50px;
+            }
+
+            .image-card {
+              height: 350px;
+            }
+
+            .comments-section,
+            .liked-by-section {
+              margin: 25px;
+            }
+          }
+
+          /* Tablets */
+          @media (max-width: 768px) {
+            body {
+              padding: 10px;
+            }
+
+            .nav-container {
+              padding: 12px 15px;
+              flex-direction: column;
+              gap: 15px;
+            }
+
+            .nav-brand {
+              font-size: 28px;
+            }
+
+            .nav-links {
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 6px;
+            }
+
+            .nav-link {
+              font-size: 15px;
+              padding: 8px 12px;
+            }
+
+            .card-header {
+              padding: 15px 20px;
+            }
+
+            .card-header h1 {
+              font-size: 1.5em;
+            }
+
+            .content-layout {
+              grid-template-columns: 1fr;
+              gap: 20px;
+              padding: 20px;
+            }
+
+            .post-details-card {
+              padding: 20px;
+            }
+
+            .image-section {
+              padding-top: 0;
+              order: -1;
+            }
+
+            .image-card {
+              height: 300px;
+              padding-top: 15px;
+              padding-left: 15px;
+            }
+
+            .like-section {
+              margin-top: 15px;
+            }
+
+            .comments-section {
+              margin: 20px 15px;
+            }
+
+            .liked-by-section {
+              margin: 0 15px 15px 15px;
+              padding: 12px 20px;
+            }
+
+            .comments-header {
+              padding: 15px 20px;
+            }
+
+            .add-comment-card {
+              padding: 20px;
+            }
+
+            .comment-input-group {
+              flex-direction: column;
+              align-items: stretch;
+              gap: 12px;
+            }
+
+            .comment-input {
+              border-radius: 8px;
+            }
+
+            .comment-submit-btn {
+              border-radius: 8px;
+              align-self: flex-end;
+              width: auto;
+            }
+
+            .comments-list {
+              padding: 20px;
+            }
+
+            .form-actions {
+              margin: 20px 15px;
+              padding: 15px;
+            }
+          }
+
+          /* Mobile phones */
+          @media (max-width: 480px) {
+            body {
+              padding: 5px;
+            }
+
+            .nav-container {
+              padding: 10px;
+            }
+
+            .nav-brand {
+              font-size: 24px;
+            }
+
+            .nav-links {
+              gap: 4px;
+            }
+
+            .nav-link {
+              font-size: 13px;
+              padding: 6px 10px;
+            }
+
+            .nav-link .nav-icon {
+              font-size: 14px;
+            }
+
+            .card-header {
+              padding: 12px 15px;
+            }
+
+            .card-header h1 {
+              font-size: 1.3em;
+            }
+
+            .content-layout {
+              padding: 15px;
+              gap: 15px;
+            }
+
+            .post-details-card {
+              padding: 15px;
+            }
+
+            .detail-item label {
+              font-size: 14px;
+            }
+
+            .detail-value {
+              padding: 10px 12px;
+              font-size: 14px;
+            }
+
+            .blog-content {
+              padding: 15px;
+              font-size: 14px;
+            }
+
+            .image-card {
+              height: 250px;
+              padding-top: 12px;
+              padding-left: 12px;
+            }
+
+            .like-btn {
+              font-size: 1.8em;
+            }
+
+            .like-count {
+              font-size: 1em;
+            }
+
+            .comments-section {
+              margin: 15px 10px;
+            }
+
+            .liked-by-section {
+              margin: 0 10px 12px 10px;
+              padding: 10px 15px;
+            }
+
+            .comments-header h3 {
+              font-size: 1.2em;
+            }
+
+            .add-comment-card {
+              padding: 15px;
+            }
+
+            .comment-input {
+              font-size: 13px;
+              padding: 10px 14px;
+            }
+
+            .comment-submit-btn {
+              font-size: 13px;
+              padding: 10px 20px;
+            }
+
+            .comments-list {
+              padding: 15px;
+            }
+
+            .comment {
+              padding: 12px;
+            }
+
+            .comment-header {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 4px;
+            }
+
+            .comment-author {
+              font-size: 13px;
+            }
+
+            .comment-date {
+              font-size: 11px;
+            }
+
+            .comment-content {
+              font-size: 14px;
+            }
+
+            .form-actions {
+              margin: 15px 10px;
+              padding: 12px;
+              gap: 10px;
+            }
+
+            .cancel-btn, .edit-btn, .delete-btn {
+              font-size: 13px;
+              padding: 10px 20px;
+            }
+          }
+
+           /* Extra small devices */
+          @media (max-width: 360px) {
+            .nav-brand {
+              font-size: 20px;
+            }
+
+            .nav-links {
+              flex-direction: column;
+              align-items: center;
+              gap: 6px;
+            }
+
+            .nav-link {
+              font-size: 12px;
+              padding: 5px 8px;
+              width: 100%;
+              text-align: center;
+            }
+
+            .card-header h1 {
+              font-size: 1.1em;
+            }
+
+            .detail-item label {
+              font-size: 13px;
+            }
+
+            .detail-value {
+              font-size: 13px;
+              padding: 8px 10px;
+            }
+
+            .blog-content {
+              font-size: 13px;
+              padding: 12px;
+            }
+
+            .comment-content {
+              font-size: 13px;
+            }
+
+            .cancel-btn, .edit-btn, .delete-btn {
+              font-size: 12px;
+              padding: 8px 16px;
+            }
+          }
         `}</style>
       </body>
     </html>
