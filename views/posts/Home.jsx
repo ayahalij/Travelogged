@@ -22,7 +22,6 @@ function Home() {
           <div className="hero-content">
             <div className="hero-image">
                 <image src='/HomePagePhoto2.jpg' className="hero-image"></image>
-                <img src="/HomePagePhoto2.jpg" className="hero-image" alt="Home Page" />
 
             </div>
             <div className="hero-text">
