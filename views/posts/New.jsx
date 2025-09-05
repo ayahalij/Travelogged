@@ -10,96 +10,58 @@ function New() {
       <body>
         <div className="page-container">
           <div className="form-card">
-            
-               {/* Navigation Bar */}
+
+            {/* Navigation */}
             <nav className="navbar">
               <div className="nav-container">
-                <div className="nav-brand">
-                    Travelogged
-                </div>
-                
+                <div className="nav-brand">Travelogged</div>
                 <div className="nav-links">
-                  <a href="/posts" className="nav-link">
-                    <span className="nav-icon">🏠︎</span>Home
-                  </a>
-                  <a href="/posts/new" className="nav-link active">
-                    <span className="nav-icon">✦</span>
-                    Create Post
-                  </a>
-                  <a href="/profile" className="nav-link">
-                    <span className="nav-icon">☰</span>
-                    Profile
-                  </a>
-                  <a href="/" className="nav-link logout">
-                    <span className="nav-icon">⍈</span>
-                    Log Out
-                  </a>
+                  <a href="/posts" className="nav-link">🏠︎ Home</a>
+                  <a href="/posts/new" className="nav-link active">✦ Create Post</a>
+                  <a href="/profile" className="nav-link">☰ Profile</a>
+                  <a href="/" className="nav-link logout">⍈ Log Out</a>
                 </div>
               </div>
             </nav>
+
             <div className="card-header">
               <h1>Share Your Travel Experience</h1>
             </div>
-            
-            <form action="/posts" method="POST" encType="multipart/form-data" className="form-content">
-              {/* Title - Full Width */}
+
+            {/* Form */}
+            <form 
+              action="/posts" 
+              method="POST" 
+              encType="multipart/form-data"
+              className="form-content"
+            >
+              {/* Title */}
               <div className="form-group full-width">
                 <label htmlFor="title">Title</label>
-                <input 
-                  type="text" 
-                  id="title" 
-                  name="title" 
-                  required 
-                  placeholder="My Amazing Trip to..."
-                />
+                <input type="text" id="title" name="title" required placeholder="My Amazing Trip to..." />
               </div>
 
-              {/* Country and City - Side by Side */}
+              {/* Country & City */}
               <div className="form-row">
                 <div className="form-group half-width">
                   <label htmlFor="country">Country</label>
-                  <input 
-                    type="text" 
-                    id="country" 
-                    name="country" 
-                    required 
-                    placeholder="Japan"
-                  />
+                  <input type="text" id="country" name="country" required placeholder="Japan" />
                 </div>
-
                 <div className="form-group half-width">
                   <label htmlFor="city">City</label>
-                  <input 
-                    type="text" 
-                    id="city" 
-                    name="city" 
-                    required 
-                    placeholder="Tokyo"
-                  />
+                  <input type="text" id="city" name="city" required placeholder="Tokyo" />
                 </div>
               </div>
 
-              {/* Date and Duration - Side by Side */}
+              {/* Date & Duration */}
               <div className="form-row">
                 <div className="form-group half-width">
                   <label htmlFor="travelDate">Date</label>
-                  <input 
-                    type="date" 
-                    id="travelDate" 
-                    name="travelDate" 
-                    required 
-                  />
+                  <input type="date" id="travelDate" name="travelDate" required />
                 </div>
-
                 <div className="form-group half-width">
                   <label htmlFor="duration">Duration</label>
-                  <input 
-                    type="text" 
-                    id="duration" 
-                    name="duration" 
-                    required 
-                    placeholder="5 days"
-                  />
+                  <input type="text" id="duration" name="duration" required placeholder="5 days" />
                 </div>
               </div>
 
@@ -110,9 +72,9 @@ function New() {
                   <div className="file-input-container">
                     <input 
                       type="file" 
-                      accept="image/*"
+                      accept="image/*" 
                       id="imageUrl" 
-                      name="imageUrl"
+                      name="image"  // ✅ Must match Multer's upload.single('image')
                       className="file-input"
                     />
                     <div className="file-input-label">
@@ -122,21 +84,15 @@ function New() {
                 </div>
               </div>
 
-              {/* Comment - Full Width */}
+              {/* Blog Content */}
               <div className="form-group full-width">
                 <label htmlFor="content">Blog</label>
-                <textarea 
-                  id="content" 
-                  name="content" 
-                  rows="4" 
-                  required 
-                  placeholder="Tell us about your amazing travel experience..."
-                ></textarea>
+                <textarea id="content" name="content" rows="5" required placeholder="Tell us about your travel experience..."></textarea>
               </div>
 
-              {/* Submit Button */}
+              {/* Submit */}
               <div className="form-actions">
-                <button type="submit" className="submit-btn">Create new blog</button>
+                <button type="submit" className="submit-btn">Create Post</button>
                 <a href="/posts" className="cancel-btn">Cancel</a>
               </div>
             </form>
